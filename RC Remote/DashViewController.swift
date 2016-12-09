@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  InfoViewController.swift
 //  RC Remote
 //
 //  Created by Ahmed Ahmadu on 15/09/2016.
@@ -8,18 +8,17 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
-
+class DashViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
 }
-

@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  FirstViewController.swift
 //  RC Remote
 //
 //  Created by Ahmed Ahmadu on 15/09/2016.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+
+class VideoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

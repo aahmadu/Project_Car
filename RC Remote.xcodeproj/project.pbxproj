@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20A96691D5C3B32E73B7B990 /* Pods_RC_RemoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DA032CAE9BD4B0044BF96D3 /* Pods_RC_RemoteTests.framework */; };
+		D650874D21F3FDFE46CE7080 /* Pods_RC_Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA86D226E78B9FC3ED16D16D /* Pods_RC_Remote.framework */; };
 		E28208961D8AFBA200CD20DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208951D8AFBA200CD20DC /* AppDelegate.swift */; };
-		E28208981D8AFBA200CD20DC /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208971D8AFBA200CD20DC /* FirstViewController.swift */; };
-		E282089A1D8AFBA200CD20DC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208991D8AFBA200CD20DC /* SecondViewController.swift */; };
+		E28208981D8AFBA200CD20DC /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208971D8AFBA200CD20DC /* VideoViewController.swift */; };
+		E282089A1D8AFBA200CD20DC /* DriveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208991D8AFBA200CD20DC /* DriveViewController.swift */; };
 		E282089D1D8AFBA200CD20DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E282089B1D8AFBA200CD20DC /* Main.storyboard */; };
 		E282089F1D8AFBA200CD20DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E282089E1D8AFBA200CD20DC /* Assets.xcassets */; };
 		E28208A21D8AFBA200CD20DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E28208A01D8AFBA200CD20DC /* LaunchScreen.storyboard */; };
 		E28208AD1D8AFBA200CD20DC /* RC_RemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208AC1D8AFBA200CD20DC /* RC_RemoteTests.swift */; };
 		E28208B81D8AFBA200CD20DC /* RC_RemoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208B71D8AFBA200CD20DC /* RC_RemoteUITests.swift */; };
+		E28208C61D8AFBD300CD20DC /* DashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28208C51D8AFBD300CD20DC /* DashViewController.swift */; };
+		F8AEE1A05CEF425A5921B806 /* Pods_RC_RemoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A51D0BCE004725C92C59490 /* Pods_RC_RemoteUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +39,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1DA032CAE9BD4B0044BF96D3 /* Pods_RC_RemoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RC_RemoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AE0F703649175C7891B4563 /* Pods-RC RemoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RC RemoteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RC RemoteTests/Pods-RC RemoteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9A51D0BCE004725C92C59490 /* Pods_RC_RemoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RC_RemoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5B4B10CE12C0455451231A3 /* Pods-RC RemoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RC RemoteUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RC RemoteUITests/Pods-RC RemoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B6617C37173022D5E145D0CE /* Pods-RC RemoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RC RemoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RC RemoteTests/Pods-RC RemoteTests.release.xcconfig"; sourceTree = "<group>"; };
+		CDC18B95259153FF7E8C3D0D /* Pods-RC Remote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RC Remote.release.xcconfig"; path = "Pods/Target Support Files/Pods-RC Remote/Pods-RC Remote.release.xcconfig"; sourceTree = "<group>"; };
+		DA86D226E78B9FC3ED16D16D /* Pods_RC_Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RC_Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCE50431EDA7E425F53CAE2C /* Pods-RC Remote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RC Remote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RC Remote/Pods-RC Remote.debug.xcconfig"; sourceTree = "<group>"; };
 		E28208921D8AFBA200CD20DC /* RC Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RC Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28208951D8AFBA200CD20DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E28208971D8AFBA200CD20DC /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		E28208991D8AFBA200CD20DC /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		E28208971D8AFBA200CD20DC /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		E28208991D8AFBA200CD20DC /* DriveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveViewController.swift; sourceTree = "<group>"; };
 		E282089C1D8AFBA200CD20DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E282089E1D8AFBA200CD20DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E28208A11D8AFBA200CD20DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +61,8 @@
 		E28208B31D8AFBA200CD20DC /* RC RemoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RC RemoteUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28208B71D8AFBA200CD20DC /* RC_RemoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RC_RemoteUITests.swift; sourceTree = "<group>"; };
 		E28208B91D8AFBA200CD20DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E28208C51D8AFBD300CD20DC /* DashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashViewController.swift; sourceTree = "<group>"; };
+		F598C4121C1D9A22C24469AB /* Pods-RC RemoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RC RemoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RC RemoteUITests/Pods-RC RemoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D650874D21F3FDFE46CE7080 /* Pods_RC_Remote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20A96691D5C3B32E73B7B990 /* Pods_RC_RemoteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +86,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8AEE1A05CEF425A5921B806 /* Pods_RC_RemoteUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77F8BDF8B13E3473D06EC932 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA86D226E78B9FC3ED16D16D /* Pods_RC_Remote.framework */,
+				1DA032CAE9BD4B0044BF96D3 /* Pods_RC_RemoteTests.framework */,
+				9A51D0BCE004725C92C59490 /* Pods_RC_RemoteUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0AD21143A062E67741A16E3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DCE50431EDA7E425F53CAE2C /* Pods-RC Remote.debug.xcconfig */,
+				CDC18B95259153FF7E8C3D0D /* Pods-RC Remote.release.xcconfig */,
+				6AE0F703649175C7891B4563 /* Pods-RC RemoteTests.debug.xcconfig */,
+				B6617C37173022D5E145D0CE /* Pods-RC RemoteTests.release.xcconfig */,
+				A5B4B10CE12C0455451231A3 /* Pods-RC RemoteUITests.debug.xcconfig */,
+				F598C4121C1D9A22C24469AB /* Pods-RC RemoteUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E28208891D8AFBA200CD20DC = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +123,8 @@
 				E28208AB1D8AFBA200CD20DC /* RC RemoteTests */,
 				E28208B61D8AFBA200CD20DC /* RC RemoteUITests */,
 				E28208931D8AFBA200CD20DC /* Products */,
+				D0AD21143A062E67741A16E3 /* Pods */,
+				77F8BDF8B13E3473D06EC932 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,11 +142,12 @@
 			isa = PBXGroup;
 			children = (
 				E28208951D8AFBA200CD20DC /* AppDelegate.swift */,
-				E28208971D8AFBA200CD20DC /* FirstViewController.swift */,
-				E28208991D8AFBA200CD20DC /* SecondViewController.swift */,
+				E28208971D8AFBA200CD20DC /* VideoViewController.swift */,
+				E28208991D8AFBA200CD20DC /* DriveViewController.swift */,
+				E28208C51D8AFBD300CD20DC /* DashViewController.swift */,
 				E282089B1D8AFBA200CD20DC /* Main.storyboard */,
-				E282089E1D8AFBA200CD20DC /* Assets.xcassets */,
 				E28208A01D8AFBA200CD20DC /* LaunchScreen.storyboard */,
+				E282089E1D8AFBA200CD20DC /* Assets.xcassets */,
 				E28208A31D8AFBA200CD20DC /* Info.plist */,
 			);
 			path = "RC Remote";
@@ -135,9 +178,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E28208BC1D8AFBA200CD20DC /* Build configuration list for PBXNativeTarget "RC Remote" */;
 			buildPhases = (
+				3D264614551ED0C4ADD74146 /* [CP] Check Pods Manifest.lock */,
 				E282088E1D8AFBA200CD20DC /* Sources */,
 				E282088F1D8AFBA200CD20DC /* Frameworks */,
 				E28208901D8AFBA200CD20DC /* Resources */,
+				C1A6FDE1B8470C1B61126B9D /* [CP] Embed Pods Frameworks */,
+				3B25A86C15075B797BD2F4D3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,9 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E28208BF1D8AFBA200CD20DC /* Build configuration list for PBXNativeTarget "RC RemoteTests" */;
 			buildPhases = (
+				CF96CECC133E46BF46CB5AB5 /* [CP] Check Pods Manifest.lock */,
 				E28208A41D8AFBA200CD20DC /* Sources */,
 				E28208A51D8AFBA200CD20DC /* Frameworks */,
 				E28208A61D8AFBA200CD20DC /* Resources */,
+				17B6AEF50E98B3687EE1B49D /* [CP] Embed Pods Frameworks */,
+				18DD0197BA25F3EA8D931287 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,9 +219,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E28208C21D8AFBA200CD20DC /* Build configuration list for PBXNativeTarget "RC RemoteUITests" */;
 			buildPhases = (
+				2F664A9915F8147D4DB80189 /* [CP] Check Pods Manifest.lock */,
 				E28208AF1D8AFBA200CD20DC /* Sources */,
 				E28208B01D8AFBA200CD20DC /* Frameworks */,
 				E28208B11D8AFBA200CD20DC /* Resources */,
+				85D4F90C1BDEF48D02FF104D /* [CP] Copy Pods Resources */,
+				E3E4D8DFFB82D28E11EC2BEF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -191,21 +243,24 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Ahmed Ahmadu";
 				TargetAttributes = {
 					E28208911D8AFBA200CD20DC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = M84C5X234B;
+						LastSwiftMigration = 0800;
 					};
 					E28208A71D8AFBA200CD20DC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = M84C5X234B;
+						LastSwiftMigration = 0800;
 						TestTargetID = E28208911D8AFBA200CD20DC;
 					};
 					E28208B21D8AFBA200CD20DC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = M84C5X234B;
+						LastSwiftMigration = 0800;
 						TestTargetID = E28208911D8AFBA200CD20DC;
 					};
 				};
@@ -257,14 +312,153 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		17B6AEF50E98B3687EE1B49D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RC RemoteTests/Pods-RC RemoteTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		18DD0197BA25F3EA8D931287 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RC RemoteTests/Pods-RC RemoteTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F664A9915F8147D4DB80189 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3B25A86C15075B797BD2F4D3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RC Remote/Pods-RC Remote-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3D264614551ED0C4ADD74146 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		85D4F90C1BDEF48D02FF104D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RC RemoteUITests/Pods-RC RemoteUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C1A6FDE1B8470C1B61126B9D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RC Remote/Pods-RC Remote-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF96CECC133E46BF46CB5AB5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E3E4D8DFFB82D28E11EC2BEF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RC RemoteUITests/Pods-RC RemoteUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E282088E1D8AFBA200CD20DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E282089A1D8AFBA200CD20DC /* SecondViewController.swift in Sources */,
+				E282089A1D8AFBA200CD20DC /* DriveViewController.swift in Sources */,
 				E28208961D8AFBA200CD20DC /* AppDelegate.swift in Sources */,
-				E28208981D8AFBA200CD20DC /* FirstViewController.swift in Sources */,
+				E28208C61D8AFBD300CD20DC /* DashViewController.swift in Sources */,
+				E28208981D8AFBA200CD20DC /* VideoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,8 +527,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -379,8 +575,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -399,6 +597,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -406,68 +605,80 @@
 		};
 		E28208BD1D8AFBA200CD20DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCE50431EDA7E425F53CAE2C /* Pods-RC Remote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "RC Remote/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AA.RC-Remote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		E28208BE1D8AFBA200CD20DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDC18B95259153FF7E8C3D0D /* Pods-RC Remote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "RC Remote/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AA.RC-Remote";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		E28208C01D8AFBA200CD20DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AE0F703649175C7891B4563 /* Pods-RC RemoteTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "RC RemoteTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AA.RC-RemoteTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RC Remote.app/RC Remote";
 			};
 			name = Debug;
 		};
 		E28208C11D8AFBA200CD20DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B6617C37173022D5E145D0CE /* Pods-RC RemoteTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "RC RemoteTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AA.RC-RemoteTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RC Remote.app/RC Remote";
 			};
 			name = Release;
 		};
 		E28208C31D8AFBA200CD20DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5B4B10CE12C0455451231A3 /* Pods-RC RemoteUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "RC RemoteUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AA.RC-RemoteUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "RC Remote";
 			};
 			name = Debug;
 		};
 		E28208C41D8AFBA200CD20DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F598C4121C1D9A22C24469AB /* Pods-RC RemoteUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "RC RemoteUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "AA.RC-RemoteUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "RC Remote";
 			};
 			name = Release;
@@ -491,6 +702,7 @@
 				E28208BE1D8AFBA200CD20DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E28208BF1D8AFBA200CD20DC /* Build configuration list for PBXNativeTarget "RC RemoteTests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +711,7 @@
 				E28208C11D8AFBA200CD20DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E28208C21D8AFBA200CD20DC /* Build configuration list for PBXNativeTarget "RC RemoteUITests" */ = {
 			isa = XCConfigurationList;
@@ -507,6 +720,7 @@
 				E28208C41D8AFBA200CD20DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
