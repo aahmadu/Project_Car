@@ -1,0 +1,21 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, ’10.0’
+
+target 'iOS_P_RC' do
+  # Comment this line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for iOS_P_RC
+  pod 'CocoaAsyncSocket'
+
+  target 'iOS_P_RCTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'iOS_P_RCUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
