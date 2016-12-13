@@ -1,3 +1,9 @@
 [submodule "RPi/RPi_Cam_Web_Interface"]
 	path = RPi/RPi_Cam_Web_Interface
 	url = https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git
+[submodule "RPi/Modules/MFRC522-python"]
+	path = RPi/Modules/MFRC522-python
+	url = https://github.com/mxgxw/MFRC522-python.git
+[submodule "RPi/Modules/SPI-Py"]
+	path = RPi/Modules/SPI-Py
+	url = https://github.com/lthiery/SPI-Py.git
