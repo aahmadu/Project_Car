@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import wiringpi
 
-import MFRC522
+from Modules.MFRC522 import MFRC522
 
 import socket
 
@@ -15,7 +15,7 @@ from numpy import interp
 #Setting up socket connection
 sock = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 #sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server_address = ('192.168.42.1', 5050)
+server_address = ('192.168.1.78', 5050)
 
 try:
     print "starting up on %s port %s" % server_address
