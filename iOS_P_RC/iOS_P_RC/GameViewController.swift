@@ -1,9 +1,9 @@
 //
-//  ViewController.swift
+//  GameViewController.swift
 //  iOS_P_RC
 //
-//  Created by Ahmed Ahmadu on 12/12/2016.
-//  Copyright © 2016 Ahmed Ahmadu. All rights reserved.
+//  Created by Ahmed Ahmadu on 07/01/2017.
+//  Copyright © 2017 Ahmed Ahmadu. All rights reserved.
 //
 
 import UIKit
@@ -11,8 +11,32 @@ import CoreMotion
 import CocoaAsyncSocket
 
 
-class ViewController: UIViewController, GCDAsyncSocketDelegate {
+class CheckPoint {
+    var track = Queue<String>()
+    var checkpoints: [String: [UInt8]] = [:]
 
+    func setTrack(trackArray: Array<String>, CPDict: Dictionary<String, [UInt8]>) {
+        checkpoints = CPDict
+        for point in trackArray {
+            track.enqueue(item: point)
+        }
+    }
+
+    func checkCross(pointSerial: Array<UInt8>, endGame: () -> Int) {
+        for (key, serial) in checkpoints {
+            if serial == pointSerial && key == track.peek() {
+                print(track.dequeue())
+            }
+            if track.queueList == []{
+                endGame()
+            }
+        }
+    }
+    
+}
+
+class GameViewController: UIViewController, GCDAsyncSocketDelegate {
+    
     let addr = "192.168.0.9"
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
@@ -30,7 +54,10 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
     var driveButtonPressed = false
     
     var currentCheckPoint = [UInt8]()
-    var checkPoints: [Character: [UInt8]] = ["A": [151, 23, 174, 33, 15], "B": [35, 85, 138, 217, 37]]
+    var checkPoints: [String: [UInt8]] = ["A": [151, 23, 174, 33, 15], "B": [35, 85, 138, 217, 37]]
+    
+    var trackArray = [String]()
+    var CP = CheckPoint()
     
     @IBOutlet weak var throttleSlider: UIImageView!
     @IBOutlet weak var driveButton: UIButton!
@@ -48,7 +75,17 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
     
     @IBOutlet var rollLabel: UILabel!
     @IBOutlet var pitchLabel: UILabel!
-    @IBOutlet weak var recvTest: UILabel!
+    
+    @IBOutlet weak var NoOfCPoints: UILabel!
+    @IBOutlet weak var CPsCrossed: UILabel!
+    @IBOutlet weak var NextCP: UILabel!
+    @IBOutlet weak var timeMinLabel: UILabel!
+    @IBOutlet weak var timeSecLabel: UILabel!
+    @IBOutlet weak var timeMilLabel: UILabel!
+
+
+    var counter = [0, 0, 0]
+    var timer: Timer = Timer()
     
     @IBAction func driveButtonIn(_ sender: AnyObject) {
         rollCurrMinMax[2] = rollCurrMinMax[0] + 0.90
@@ -123,7 +160,7 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
             package[1]=UInt8(mappedPitch)
             
             let data2 = Data(bytes: package)
-//            recvTest.text = String(describing: checkPoint)
+            //            recvTest.text = String(describing: checkPoint)
             cSocket.write(data2, withTimeout: -1.0, tag: 0)
             
             
@@ -154,7 +191,12 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameViewController.UpdateTimer), userInfo: nil, repeats: true)
+        NoOfCPoints.text = String(trackArray.count)
         driveButton.isHidden = true
+        
+        CP.setTrack(trackArray: trackArray, CPDict: checkPoints)
         
         cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
         do {
@@ -188,25 +230,62 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destViewController = segue.destination as? FinalScreenVC
+        
+        destViewController?.timeMinLabel.text = timeMinLabel.text
+        destViewController?.timeSecLabel.text = timeSecLabel.text
+        destViewController?.timeMilLabel.text = timeMilLabel.text
+        
+    }
+    
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {
         print("Connected to \(addr) on port \(port).")
         cSocket!.readData(withTimeout: -1, tag: 0)
     }
     
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-        let CheckPoindSerial = [UInt8](data)
+        let CheckPointSerial = [UInt8](data)
         print("all good")
-        print(currentCheckPoint)
+        print(CheckPointSerial)
         
-        if checkPoints["A"]! == CheckPoindSerial {
-            print("Crossed CP1!")
-        }
+//        if checkPoints["a"]! == CheckPoindSerial {
+//            print("Crossed CP1!")
+//        }
+//        
+//        if checkPoints["b"]! == CheckPoindSerial {
+//            print("Crossed CP2!")
+//        }
         
-        if checkPoints["B"]! == CheckPoindSerial {
-            print("Crossed CP2!")
-        }
+        CP.checkCross(pointSerial: CheckPointSerial, endGame: endGame)
+        CPsCrossed.text = String(trackArray.count - CP.track.queueList.count)
+        //NextCP.text = CP.track.peek()
         
         sock.readData(withTimeout: -1, tag: 0)
+    }
+    
+    func UpdateTimer() {
+        if counter[2] == 100 {
+            counter[1]=counter[1]+1
+            counter[2] = 0
+        }else if counter[1] == 60 {
+            counter[0]=counter[0]+1
+            counter[1] = 0
+        }else {
+            counter[2]=counter[2]+1
+        }
+        timeMilLabel.text = String(format: "%02d", counter[2])
+        timeSecLabel.text = String(format: "%02d", counter[1])
+        timeMinLabel.text = String(format: "%02d", counter[0])
+    }
+    
+    func endGame() -> Int {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let mainMenuVC = storyBoard.instantiateViewController(withIdentifier: "FinalScreen") as UIViewController
+        self.present(mainMenuVC, animated:true, completion:nil)
+        
+        return 1
     }
     
     
