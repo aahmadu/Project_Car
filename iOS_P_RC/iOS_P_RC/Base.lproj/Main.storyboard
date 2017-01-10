@@ -447,7 +447,9 @@
                                 <rect key="frame" x="263" y="232" width="140" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <state key="normal" title="Free Mode"/>
+                                <state key="normal" title="Free Mode">
+                                    <color key="titleColor" red="0.89199596643447876" green="0.18511930108070374" blue="0.3685908317565918" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="show" id="t26-NB-O90"/>
                                 </connections>
@@ -456,7 +458,9 @@
                                 <rect key="frame" x="250" y="270" width="167" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <state key="normal" title="Create Race"/>
+                                <state key="normal" title="Create Race">
+                                    <color key="titleColor" red="0.18354678153991699" green="0.94390112161636353" blue="0.56786364316940308" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="2t8-gp-06u" kind="show" id="jgL-0X-bGz"/>
                                 </connections>
