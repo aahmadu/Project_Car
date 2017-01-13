@@ -13,7 +13,7 @@ import CocoaAsyncSocket
 
 class ViewController: UIViewController, GCDAsyncSocketDelegate {
 
-    let addr = "192.168.0.9"
+    let addr = "192.168.2.17"
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
     
