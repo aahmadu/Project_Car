@@ -20,6 +20,7 @@
 		E21184A91E216D2900B1FF2B /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21184A81E216D2900B1FF2B /* GameViewController.swift */; };
 		E228CC541E225216005CFC21 /* FinalScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E228CC531E225216005CFC21 /* FinalScreenVC.swift */; };
 		E228CC571E225EAF005CFC21 /* SuperMario.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E228CC561E225EAF005CFC21 /* SuperMario.mp3 */; };
+		E2FA27291E2D261700B88ADD /* HomeScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA27281E2D261700B88ADD /* HomeScreenVC.swift */; };
 		EEB7EDD7F809CF04D4B370E8 /* Pods_iOS_P_RCUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953891305BECE633FEC5C108 /* Pods_iOS_P_RCUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		E21184A81E216D2900B1FF2B /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E228CC531E225216005CFC21 /* FinalScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalScreenVC.swift; sourceTree = "<group>"; };
 		E228CC561E225EAF005CFC21 /* SuperMario.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SuperMario.mp3; sourceTree = "<group>"; };
+		E2FA27281E2D261700B88ADD /* HomeScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenVC.swift; sourceTree = "<group>"; };
 		F7E0B852DD71C189C38C4DEE /* Pods-iOS_P_RC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_P_RC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS_P_RC/Pods-iOS_P_RC.debug.xcconfig"; sourceTree = "<group>"; };
 		FB76910C33BC6768CF8B6113 /* Pods_iOS_P_RCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_P_RCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				E210BF531DFEB29C008D9624 /* AppDelegate.swift */,
+				E2FA27281E2D261700B88ADD /* HomeScreenVC.swift */,
 				E210BF551DFEB29C008D9624 /* ViewController.swift */,
 				E21184A81E216D2900B1FF2B /* GameViewController.swift */,
 				E21184A61E21414E00B1FF2B /* GameSetupVC.swift */,
@@ -459,6 +462,7 @@
 				E21184A71E21414E00B1FF2B /* GameSetupVC.swift in Sources */,
 				E228CC541E225216005CFC21 /* FinalScreenVC.swift in Sources */,
 				E210BF541DFEB29C008D9624 /* AppDelegate.swift in Sources */,
+				E2FA27291E2D261700B88ADD /* HomeScreenVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

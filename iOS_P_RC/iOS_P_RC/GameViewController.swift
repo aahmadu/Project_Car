@@ -192,18 +192,18 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameViewController.UpdateTimer), userInfo: nil, repeats: true)
-        NoOfCPoints.text = String(trackArray.count)
-        driveButton.isHidden = true
-        
-        CP.setTrack(trackArray: trackArray, CPDict: checkPoints)
-        
         cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
         do {
             try cSocket.connect(toHost: addr, onPort: port)
         } catch let e {
             print(e)
         }
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameViewController.UpdateTimer), userInfo: nil, repeats: true)
+        NoOfCPoints.text = String(trackArray.count)
+        driveButton.isHidden = true
+        
+        CP.setTrack(trackArray: trackArray, CPDict: checkPoints)
         
         
         //Gyro config

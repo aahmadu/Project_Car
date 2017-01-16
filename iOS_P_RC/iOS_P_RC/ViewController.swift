@@ -156,12 +156,12 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
         super.viewDidLoad()
         driveButton.isHidden = true
         
-        cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
-        do {
-            try cSocket.connect(toHost: addr, onPort: port)
-        } catch let e {
-            print(e)
-        }
+//        cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
+//        do {
+//            try cSocket.connect(toHost: addr, onPort: port)
+//        } catch let e {
+//            print(e)
+//        }
         
         
         //Gyro config
