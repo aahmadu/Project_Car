@@ -19,6 +19,10 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     var nextVCisFreeMode = false
     
+    @IBOutlet weak var connectionStatusImage: UIImageView!
+    @IBOutlet weak var connectionStatusLabel: UILabel!
+    
+    
     @IBAction func freeModeClicked(_ sender: Any) {
         nextVCisFreeMode = true
     }
@@ -26,7 +30,10 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     @IBOutlet weak var addrTxtField: UITextField!
     
     @IBAction func connectButton(_ sender: Any) {
-        connectToCar(addr: addrTxtField.text!)
+        if connectToCar(addr: addrTxtField.text!) {
+            connectionStatusLabel.text = "Connected"
+            connectionStatusImage.image = #imageLiteral(resourceName: "green")
+        }
     }
     
     func connectToCar(addr: String) -> Bool {
@@ -36,8 +43,12 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         } catch let e {
             print(e)
         }
-        
-        return true
+        sleep(1)
+        if cSocket.isConnected {
+            return true
+        } else {
+            return false
+        }
     }
 
     override func viewDidLoad() {

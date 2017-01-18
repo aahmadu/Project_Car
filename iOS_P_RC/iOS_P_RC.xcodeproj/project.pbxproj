@@ -617,6 +617,7 @@
 			baseConfigurationReference = F7E0B852DD71C189C38C4DEE /* Pods-iOS_P_RC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M84C5X234B;
 				INFOPLIST_FILE = iOS_P_RC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -631,6 +632,7 @@
 			baseConfigurationReference = 3E6028F182F09939E97C404C /* Pods-iOS_P_RC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M84C5X234B;
 				INFOPLIST_FILE = iOS_P_RC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

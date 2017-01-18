@@ -503,11 +503,24 @@
                                     <action selector="connectButton:" destination="wYH-w5-cjf" eventType="touchUpInside" id="CmC-M1-fpC"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="red" translatesAutoresizingMaskIntoConstraints="NO" id="bqg-ce-kmi">
+                                <rect key="frame" x="20" y="334" width="15" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Connected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIP-u8-Fh9">
+                                <rect key="frame" x="43" y="334" width="87" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="addrTxtField" destination="C5X-D7-90I" id="GgB-Eg-rMs"/>
+                        <outlet property="connectionStatusImage" destination="bqg-ce-kmi" id="bNh-1d-RJ0"/>
+                        <outlet property="connectionStatusLabel" destination="wIP-u8-Fh9" id="hlk-AA-UwE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5EY-gO-HRj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -518,6 +531,7 @@
     <resources>
         <image name="gas" width="300" height="300"/>
         <image name="pc" width="1308" height="494"/>
+        <image name="red" width="105" height="105"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gfG-fg-Qso"/>
