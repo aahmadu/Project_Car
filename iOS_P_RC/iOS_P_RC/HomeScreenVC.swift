@@ -10,11 +10,19 @@ import UIKit
 import AVFoundation
 import CocoaAsyncSocket
 
+
 class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     let addr = "192.168.2.17"
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
+    
+    var nextVCisFreeMode = false
+    
+    
+    @IBAction func freeModeClicked(_ sender: Any) {
+        nextVCisFreeMode = true
+    }
     
     @IBOutlet weak var addrTxtField: UITextField!
     
@@ -37,7 +45,16 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if nextVCisFreeMode {
+            let destViewController = segue.destination as? FreeModeVC
+            destViewController?.cSocket = cSocket
+        }else{
+            let destViewController = segue.destination as? GameSetupVC
+            destViewController?.cSocket = cSocket
+        }
     }
     
     override func didReceiveMemoryWarning() {

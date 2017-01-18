@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FreeModeVC.swift
 //  iOS_P_RC
 //
 //  Created by Ahmed Ahmadu on 12/12/2016.
@@ -11,7 +11,7 @@ import CoreMotion
 import CocoaAsyncSocket
 
 
-class ViewController: UIViewController, GCDAsyncSocketDelegate {
+class FreeModeVC: UIViewController, GCDAsyncSocketDelegate {
 
     let addr = "192.168.2.17"
     let port:UInt16 = 5050
@@ -186,6 +186,13 @@ class ViewController: UIViewController, GCDAsyncSocketDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //var destViewController: GameViewController = segue.destinationViewController as GameViewController
+        let destViewController = segue.destination as? HomeScreenVC
+        
+        destViewController?.cSocket = cSocket
     }
     
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaAsyncSocket
 
 class Queue<QueueType> {
     var queueList = [QueueType]()
@@ -40,10 +41,12 @@ class Queue<QueueType> {
     }
 }
 
-class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, GCDAsyncSocketDelegate {
     
     var stepperVal = 0.0
     var selectedCP = "A"
+    
+    var cSocket:GCDAsyncSocket!
     
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
@@ -94,6 +97,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         let destViewController = segue.destination as? GameViewController
         
         destViewController?.trackArray = trackArray
+        destViewController?.cSocket = cSocket
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

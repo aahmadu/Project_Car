@@ -10,7 +10,7 @@
 		A040749348FFF48580DEC83A /* Pods_iOS_P_RCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB76910C33BC6768CF8B6113 /* Pods_iOS_P_RCTests.framework */; };
 		B37B7087D2E91261C1076D5C /* Pods_iOS_P_RC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8384965D5119936F19B042C5 /* Pods_iOS_P_RC.framework */; };
 		E210BF541DFEB29C008D9624 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E210BF531DFEB29C008D9624 /* AppDelegate.swift */; };
-		E210BF561DFEB29C008D9624 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E210BF551DFEB29C008D9624 /* ViewController.swift */; };
+		E210BF561DFEB29C008D9624 /* FreeModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E210BF551DFEB29C008D9624 /* FreeModeVC.swift */; };
 		E210BF591DFEB29C008D9624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E210BF571DFEB29C008D9624 /* Main.storyboard */; };
 		E210BF5B1DFEB29C008D9624 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E210BF5A1DFEB29C008D9624 /* Assets.xcassets */; };
 		E210BF5E1DFEB29C008D9624 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E210BF5C1DFEB29C008D9624 /* LaunchScreen.storyboard */; };
@@ -51,7 +51,7 @@
 		953891305BECE633FEC5C108 /* Pods_iOS_P_RCUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_P_RCUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E210BF501DFEB29C008D9624 /* iOS_P_RC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_P_RC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E210BF531DFEB29C008D9624 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E210BF551DFEB29C008D9624 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E210BF551DFEB29C008D9624 /* FreeModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeModeVC.swift; sourceTree = "<group>"; };
 		E210BF581DFEB29C008D9624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E210BF5A1DFEB29C008D9624 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E210BF5D1DFEB29C008D9624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 			children = (
 				E210BF531DFEB29C008D9624 /* AppDelegate.swift */,
 				E2FA27281E2D261700B88ADD /* HomeScreenVC.swift */,
-				E210BF551DFEB29C008D9624 /* ViewController.swift */,
+				E210BF551DFEB29C008D9624 /* FreeModeVC.swift */,
 				E21184A81E216D2900B1FF2B /* GameViewController.swift */,
 				E21184A61E21414E00B1FF2B /* GameSetupVC.swift */,
 				E228CC531E225216005CFC21 /* FinalScreenVC.swift */,
@@ -458,7 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E21184A91E216D2900B1FF2B /* GameViewController.swift in Sources */,
-				E210BF561DFEB29C008D9624 /* ViewController.swift in Sources */,
+				E210BF561DFEB29C008D9624 /* FreeModeVC.swift in Sources */,
 				E21184A71E21414E00B1FF2B /* GameSetupVC.swift in Sources */,
 				E228CC541E225216005CFC21 /* FinalScreenVC.swift in Sources */,
 				E210BF541DFEB29C008D9624 /* AppDelegate.swift in Sources */,
