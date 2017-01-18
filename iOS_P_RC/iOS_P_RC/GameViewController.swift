@@ -59,6 +59,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     var trackArray = [String]()
     var CP = CheckPoint()
     
+    var cancelGame = false
+    
     @IBOutlet weak var throttleSlider: UIImageView!
     @IBOutlet weak var driveButton: UIButton!
     @IBAction func showButton(_ sender: Any) {
@@ -110,10 +112,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         let alert = UIAlertController(title: "Alert", message: "Are you sure you want to exit", preferredStyle: UIAlertControllerStyle.alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default){(ACTION) in
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            
-            let mainMenuVC = storyBoard.instantiateViewController(withIdentifier: "homeVC") as UIViewController
-            self.present(mainMenuVC, animated:true, completion:nil)
+            self.cancelGame = true
+            self.performSegue(withIdentifier: "gameToHome", sender: nil)
         }
         
         let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.default)
@@ -191,13 +191,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
-//        do {
-//            try cSocket.connect(toHost: addr, onPort: port)
-//        } catch let e {
-//            print(e)
-//        }
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameViewController.UpdateTimer), userInfo: nil, repeats: true)
         NoOfCPoints.text = String(trackArray.count)
@@ -231,12 +224,17 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destViewController = segue.destination as? FinalScreenVC
-        
-        destViewController?.timeMinLabel.text = timeMinLabel.text
-        destViewController?.timeSecLabel.text = timeSecLabel.text
-        destViewController?.timeMilLabel.text = timeMilLabel.text
-        
+        if cancelGame {
+            let destViewController = segue.destination as? HomeScreenVC
+            
+            destViewController?.cSocket = cSocket
+        } else {
+            let destViewController = segue.destination as? FinalScreenVC
+            
+            destViewController?.timeMinLabel.text = timeMinLabel.text
+            destViewController?.timeSecLabel.text = timeSecLabel.text
+            destViewController?.timeMilLabel.text = timeMilLabel.text
+        }
     }
     
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {
@@ -280,10 +278,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     }
     
     func endGame() -> Int {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
-        let mainMenuVC = storyBoard.instantiateViewController(withIdentifier: "FinalScreen") as UIViewController
-        self.present(mainMenuVC, animated:true, completion:nil)
+        self.performSegue(withIdentifier: "toFinalVC", sender: nil)
         
         return 1
     }

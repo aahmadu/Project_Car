@@ -101,11 +101,12 @@
                         <outlet property="rollLabel" destination="JNT-bT-ES7" id="YQc-U7-CVm"/>
                         <outlet property="throttleSlider" destination="nWQ-nm-mYT" id="Rc2-XS-3St"/>
                         <outlet property="videoView" destination="27v-mh-SdK" id="9Ra-dc-mwz"/>
+                        <segue destination="wYH-w5-cjf" kind="show" identifier="freeModeToHome" id="1LC-tz-i5z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="393" y="-278"/>
+            <point key="canvasLocation" x="393" y="-260"/>
         </scene>
         <!--Game SetupVC-->
         <scene sceneID="55z-pZ-3ba">
@@ -147,6 +148,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
+                                    <action selector="cancelSetup:" destination="2t8-gp-06u" eventType="touchUpInside" id="bgW-h2-7HM"/>
                                     <segue destination="wYH-w5-cjf" kind="show" id="gfG-fg-Qso"/>
                                 </connections>
                             </button>
@@ -335,6 +337,8 @@
                         <outlet property="timeSecLabel" destination="QDb-zl-ro4" id="IP9-h9-YRq"/>
                         <outlet property="timer" destination="L4u-gy-cIV" id="p1c-c6-Svv"/>
                         <outlet property="videoView" destination="M9Z-wL-704" id="7pT-LH-CqB"/>
+                        <segue destination="wYH-w5-cjf" kind="show" identifier="gameToHome" id="HC9-ZH-RSU"/>
+                        <segue destination="Vje-ma-YBV" kind="show" identifier="toFinalVC" id="h2p-Vi-6KI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gIx-ua-whM" userLabel="First Responder" sceneMemberID="firstResponder"/>

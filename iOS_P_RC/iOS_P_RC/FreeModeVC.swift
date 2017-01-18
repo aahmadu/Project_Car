@@ -73,10 +73,7 @@ class FreeModeVC: UIViewController, GCDAsyncSocketDelegate {
         let alert = UIAlertController(title: "Alert", message: "Are you sure you want to exit", preferredStyle: UIAlertControllerStyle.alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default){(ACTION) in
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            
-            let mainMenuVC = storyBoard.instantiateViewController(withIdentifier: "homeVC") as UIViewController
-            self.present(mainMenuVC, animated:true, completion:nil)
+            self.performSegue(withIdentifier: "freeModeToHome", sender: nil)
         }
         
         let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.default)
@@ -155,13 +152,6 @@ class FreeModeVC: UIViewController, GCDAsyncSocketDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         driveButton.isHidden = true
-        
-//        cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
-//        do {
-//            try cSocket.connect(toHost: addr, onPort: port)
-//        } catch let e {
-//            print(e)
-//        }
         
         
         //Gyro config

@@ -19,7 +19,6 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     var nextVCisFreeMode = false
     
-    
     @IBAction func freeModeClicked(_ sender: Any) {
         nextVCisFreeMode = true
     }

@@ -48,6 +48,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     var cSocket:GCDAsyncSocket!
     
+    var cancel = false
+    
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
             trackArray.append(selectedCP)
@@ -69,10 +71,13 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     var trackArray = [String]()
     var checkPoints: [String] = ["A","B"]
-    //var trackArray: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
     let cellReuseIdentifier = "cell"
     @IBOutlet var tableView: UITableView!
     
+    
+    @IBAction func cancelSetup(_ sender: Any) {
+        cancel = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,11 +98,16 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //var destViewController: GameViewController = segue.destinationViewController as GameViewController
-        let destViewController = segue.destination as? GameViewController
+        if cancel {
+            let destViewController = segue.destination as? HomeScreenVC
+            
+            destViewController?.cSocket = cSocket
+        } else {
+            let destViewController = segue.destination as? GameViewController
         
-        destViewController?.trackArray = trackArray
-        destViewController?.cSocket = cSocket
+            destViewController?.trackArray = trackArray
+            destViewController?.cSocket = cSocket
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -116,7 +126,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         return cell
     }
     
-    // method to run when table view cell is tapped
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
     }
