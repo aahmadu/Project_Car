@@ -8,10 +8,13 @@
 
 import UIKit
 import AVFoundation
+import CocoaAsyncSocket
 
-class FinalScreenVC: UIViewController {
+class FinalScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     var audioPlayer = AVAudioPlayer()
+    
+    var cSocket:GCDAsyncSocket!
     
     @IBOutlet weak var timeMinLabel: UILabel!
     @IBOutlet weak var timeSecLabel: UILabel!
@@ -45,5 +48,11 @@ class FinalScreenVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destViewController = segue.destination as? HomeScreenVC
+        
+        destViewController?.cSocket = cSocket
+        destViewController?.cSocketDeclared = true
+    }
     
 }

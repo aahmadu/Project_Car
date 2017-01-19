@@ -13,27 +13,88 @@ import CocoaAsyncSocket
 
 class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
-    let addr = "192.168.2.17"
+    let addr = "192.168.0.7"
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
+    var cSocketDeclared = false
     
     var nextVCisFreeMode = false
+    
+    func checkConnection() -> Bool {
+        if cSocketDeclared{
+            if cSocket.isConnected {
+                connectionStatusLabel.text = "Connected"
+                connectionStatusImage.image = #imageLiteral(resourceName: "green")
+            }
+            return true
+        } else {
+            connectionStatusLabel.text = "Not Connected"
+            connectionStatusImage.image = #imageLiteral(resourceName: "red")
+            
+            return false
+        }
+    }
+    
+    func showNotConnected() {
+        let alertController = UIAlertController(title: "Not Connected", message: "Check connection and try again.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "Close", style: .cancel) { _ in }
+        
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     @IBOutlet weak var connectionStatusImage: UIImageView!
     @IBOutlet weak var connectionStatusLabel: UILabel!
     
     
     @IBAction func freeModeClicked(_ sender: Any) {
-        nextVCisFreeMode = true
+        if checkConnection() {
+            nextVCisFreeMode = true
+            self.performSegue(withIdentifier: "SegueToFreeMode", sender: nil)
+        } else {
+            showNotConnected()
+        }
     }
     
-    @IBOutlet weak var addrTxtField: UITextField!
+    @IBAction func createRaceClicked(_ sender: Any) {
+        if checkConnection() {
+            self.performSegue(withIdentifier: "SegueToCreateRace", sender: nil)
+        } else {
+            showNotConnected()
+        }
+    }
+    
     
     @IBAction func connectButton(_ sender: Any) {
-        if connectToCar(addr: addrTxtField.text!) {
-            connectionStatusLabel.text = "Connected"
-            connectionStatusImage.image = #imageLiteral(resourceName: "green")
+        let alertController = UIAlertController(title: "Connect to Car", message: "enter addr", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let connectAction = UIAlertAction(title: "Connect", style: .default) { [weak alertController] _ in
+            if let alertController = alertController {
+                let addrTextField = alertController.textFields![0] as UITextField
+
+                self.cSocketDeclared = true
+                if self.connectToCar(addr: addrTextField.text!) {
+                    self.connectionStatusLabel.text = "Connected"
+                    self.connectionStatusImage.image = #imageLiteral(resourceName: "green")
+                }
+            }
         }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
+        
+        alertController.addTextField { textField in
+            textField.text = self.addr
+            
+            NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main) { notification in
+                connectAction.isEnabled = textField.text != ""
+            }
+        }
+        
+        alertController.addAction(connectAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func connectToCar(addr: String) -> Bool {
@@ -54,6 +115,10 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if !checkConnection() {
+            print("connect car")
+        }
         
     }
     

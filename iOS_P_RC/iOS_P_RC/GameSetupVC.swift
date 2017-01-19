@@ -102,6 +102,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             let destViewController = segue.destination as? HomeScreenVC
             
             destViewController?.cSocket = cSocket
+            destViewController?.cSocketDeclared = true
         } else {
             let destViewController = segue.destination as? GameViewController
         

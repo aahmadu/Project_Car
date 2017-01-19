@@ -183,6 +183,7 @@ class FreeModeVC: UIViewController, GCDAsyncSocketDelegate {
         let destViewController = segue.destination as? HomeScreenVC
         
         destViewController?.cSocket = cSocket
+        destViewController?.cSocketDeclared = true
     }
     
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {

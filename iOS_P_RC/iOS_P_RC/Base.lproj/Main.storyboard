@@ -149,7 +149,7 @@
                                 <state key="normal" title="Cancel"/>
                                 <connections>
                                     <action selector="cancelSetup:" destination="2t8-gp-06u" eventType="touchUpInside" id="bgW-h2-7HM"/>
-                                    <segue destination="wYH-w5-cjf" kind="show" id="gfG-fg-Qso"/>
+                                    <segue destination="wYH-w5-cjf" kind="show" identifier="" id="gfG-fg-Qso"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EfF-1O-wKO">
@@ -447,27 +447,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DE5-kw-O5l">
-                                <rect key="frame" x="263" y="232" width="140" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pc" translatesAutoresizingMaskIntoConstraints="NO" id="BYz-ta-jXg">
+                                <rect key="frame" x="136" y="20" width="395" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TyV-vF-aAi">
+                                <rect key="frame" x="263" y="277" width="140" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <state key="normal" title="Free Mode">
-                                    <color key="titleColor" red="0.89199596643447876" green="0.18511930108070374" blue="0.3685908317565918" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Connect">
+                                    <color key="titleColor" red="0.88253980875015259" green="0.73852998018264771" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="freeModeClicked:" destination="wYH-w5-cjf" eventType="touchUpInside" id="qcX-lv-ffO"/>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="LnI-fX-dNg"/>
+                                    <action selector="connectButton:" destination="wYH-w5-cjf" eventType="touchUpInside" id="KEX-OL-Wui"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kf7-nF-A2f">
+                                <rect key="frame" x="263" y="307" width="140" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Settings">
+                                    <color key="titleColor" red="0.17202064394950867" green="0.73088032007217407" blue="0.91465920209884644" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OwD-O8-8l9">
-                                <rect key="frame" x="250" y="270" width="167" height="53"/>
+                                <rect key="frame" x="250" y="247" width="167" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <state key="normal" title="Create Race">
                                     <color key="titleColor" red="0.18354678153991699" green="0.94390112161636353" blue="0.56786364316940308" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="2t8-gp-06u" kind="show" id="jgL-0X-bGz"/>
+                                    <action selector="createRaceClicked:" destination="wYH-w5-cjf" eventType="touchUpInside" id="l4I-4U-csE"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Copyright © 2017 Ahmed Ahmadu. All rights reserved." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYT-YG-W5R">
@@ -484,25 +495,6 @@
                                 <color key="textColor" red="0.73505300283432007" green="0.81209760904312134" blue="0.81249231100082397" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pc" translatesAutoresizingMaskIntoConstraints="NO" id="BYz-ta-jXg">
-                                <rect key="frame" x="136" y="20" width="395" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="192.168.0.7" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C5X-D7-90I">
-                                <rect key="frame" x="20" y="193" width="154" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="continue"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cst-NU-Xb4">
-                                <rect key="frame" x="64" y="231" width="66" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Connect"/>
-                                <connections>
-                                    <action selector="connectButton:" destination="wYH-w5-cjf" eventType="touchUpInside" id="CmC-M1-fpC"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="red" translatesAutoresizingMaskIntoConstraints="NO" id="bqg-ce-kmi">
                                 <rect key="frame" x="20" y="334" width="15" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -514,13 +506,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DE5-kw-O5l">
+                                <rect key="frame" x="263" y="217" width="140" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Free Mode">
+                                    <color key="titleColor" red="0.89199596643447876" green="0.18511930108070374" blue="0.3685908317565918" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="freeModeClicked:" destination="wYH-w5-cjf" eventType="touchUpInside" id="qcX-lv-ffO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="addrTxtField" destination="C5X-D7-90I" id="GgB-Eg-rMs"/>
                         <outlet property="connectionStatusImage" destination="bqg-ce-kmi" id="bNh-1d-RJ0"/>
                         <outlet property="connectionStatusLabel" destination="wIP-u8-Fh9" id="hlk-AA-UwE"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="SegueToFreeMode" id="5iv-E4-kyv"/>
+                        <segue destination="2t8-gp-06u" kind="show" identifier="SegueToCreateRace" id="Gwy-1B-fLj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5EY-gO-HRj" userLabel="First Responder" sceneMemberID="firstResponder"/>

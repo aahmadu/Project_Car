@@ -228,12 +228,15 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             let destViewController = segue.destination as? HomeScreenVC
             
             destViewController?.cSocket = cSocket
+            destViewController?.cSocketDeclared = true
         } else {
             let destViewController = segue.destination as? FinalScreenVC
             
             destViewController?.timeMinLabel.text = timeMinLabel.text
             destViewController?.timeSecLabel.text = timeSecLabel.text
             destViewController?.timeMilLabel.text = timeMilLabel.text
+            
+            destViewController?.cSocket = cSocket
         }
     }
     
