@@ -61,14 +61,17 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     var cancelGame = false
     
+    @IBOutlet weak var throttleShift: UIImageView!
     @IBOutlet weak var throttleSlider: UIImageView!
     @IBOutlet weak var driveButton: UIButton!
     @IBAction func showButton(_ sender: Any) {
         if throttleSlider.isHidden {
             throttleSlider.isHidden = false
+            throttleShift.isHidden = false
             driveButton.isHidden = true
         }else{
             throttleSlider.isHidden = true
+            throttleShift.isHidden = true
             driveButton.isHidden = false
         }
     }

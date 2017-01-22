@@ -32,14 +32,17 @@ class FreeModeVC: UIViewController, GCDAsyncSocketDelegate {
     var currentCheckPoint = [UInt8]()
     var checkPoints: [Character: [UInt8]] = ["A": [151, 23, 174, 33, 15], "B": [35, 85, 138, 217, 37]]
     
+    @IBOutlet weak var throttleShift: UIImageView!
     @IBOutlet weak var throttleSlider: UIImageView!
     @IBOutlet weak var driveButton: UIButton!
     @IBAction func showButton(_ sender: Any) {
         if throttleSlider.isHidden {
             throttleSlider.isHidden = false
+            throttleShift.isHidden = false
             driveButton.isHidden = true
         }else{
             throttleSlider.isHidden = true
+            throttleShift.isHidden = true
             driveButton.isHidden = false
         }
     }
