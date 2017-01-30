@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo ./setupRouter
+sudo python /home/pi/Project_Car/RPi/project2.py
