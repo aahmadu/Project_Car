@@ -15,7 +15,7 @@ from numpy import interp
 #Setting up socket connection
 sock = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 #sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server_address = ('192.168.1.78', 5050)
+server_address = ('192.168.0.1', 5050)
 
 try:
     print "starting up on %s port %s" % server_address
@@ -62,7 +62,8 @@ if (os.fork()):
     rollPitch = [ord(rawData[0]), ord(rawData[1])]
 
     #ESC and servo write to pins
-    ServoPosition = int(round(interp(rollPitch[1], [0,255], [100,200])))
+    reversePitchValue = 255 - rollPitch[1]
+    ServoPosition = int(round(interp(reversePitchValue, [0,255], [100,200])))
     ESC_Value = int(round(interp(rollPitch[0], [0,255], [120,180])))
     wiringpi.pwmWrite(13, ServoPosition)
     wiringpi.pwmWrite(18, ESC_Value)
