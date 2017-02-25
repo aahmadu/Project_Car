@@ -10,31 +10,6 @@ import UIKit
 import CoreMotion
 import CocoaAsyncSocket
 
-
-class CheckPoint {
-    var track = Queue<String>()
-    var checkpoints: [String: [UInt8]] = [:]
-
-    func setTrack(trackArray: Array<String>, CPDict: Dictionary<String, [UInt8]>) {
-        checkpoints = CPDict
-        for point in trackArray {
-            track.enqueue(item: point)
-        }
-    }
-
-    func checkCross(pointSerial: Array<UInt8>, endGame: () -> Int) {
-        for (key, serial) in checkpoints {
-            if serial == pointSerial && key == track.peek() {
-                print(track.dequeue())
-            }
-            if track.queueList == []{
-                endGame()
-            }
-        }
-    }
-    
-}
-
 class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     let addr = "192.168.0.9"
@@ -53,13 +28,17 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     var driveButtonPressed = false
     
-    var currentCheckPoint = [UInt8]()
+    var currentCheckPoint: String = ""
     var checkPoints: [String: [UInt8]] = ["A": [151, 23, 174, 33, 15], "B": [35, 85, 138, 217, 37]]
     
     var trackArray = [String]()
-    var CP = CheckPoint()
+    //var CP = CheckPoint()
+    
+    var timeTrail: TimeTrialGame!
     
     var cancelGame = false
+    
+    var gameStarted = false
     
     @IBOutlet weak var throttleShift: UIImageView!
     @IBOutlet weak var throttleSlider: UIImageView!
@@ -90,7 +69,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
 
 
     var counter = [0, 0, 0]
-    var timer: Timer = Timer()
+    
     
     @IBAction func driveButtonIn(_ sender: AnyObject) {
         rollCurrMinMax[2] = rollCurrMinMax[0] + 0.90
@@ -153,6 +132,16 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         pitchCurrMinMax[0]   = data.attitude.pitch
         
         if driveButtonPressed == true {
+            if gameStarted == false {
+                
+                
+                
+                timeTrail.start(currentVC: self)
+                
+                
+                
+                gameStarted = true
+            }
             usleep(useconds_t(0.0001))
             mappedRoll = mapValues(array: [rollCurrMinMax[0], rollCurrMinMax[1], rollCurrMinMax[2], 0, 256])!
             rollLabel.text  = String(format: "%.0f", mappedRoll)
@@ -163,7 +152,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             package[1]=UInt8(mappedPitch)
             
             let data2 = Data(bytes: package)
-            //            recvTest.text = String(describing: checkPoint)
             cSocket.write(data2, withTimeout: -1.0, tag: 0)
             
             
@@ -194,13 +182,12 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(GameViewController.UpdateTimer), userInfo: nil, repeats: true)
-        NoOfCPoints.text = String(trackArray.count)
+// declare here and change trackArray
+        //NoOfCPoints.text = String(trackArray.count)
         driveButton.isHidden = true
         
-        CP.setTrack(trackArray: trackArray, CPDict: checkPoints)
-        
+//        CP.setTrack(trackArray: trackArray, CPDict: checkPoints)
+// so check which game was selected and ...
         
         //Gyro config
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (deviceMotion: CMDeviceMotion?, NSError) -> Void in
@@ -215,8 +202,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         let vidURL = "http://\(addr):8080"
         
         videoView.allowsInlineMediaPlayback = true
-        videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
-        //
+        videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" scrolling=\"no\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
+        
     }
     
     
@@ -235,9 +222,9 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         } else {
             let destViewController = segue.destination as? FinalScreenVC
             
-            destViewController?.timeMinLabel.text = timeMinLabel.text
-            destViewController?.timeSecLabel.text = timeSecLabel.text
-            destViewController?.timeMilLabel.text = timeMilLabel.text
+//            destViewController?.timeMinLabel.text = timeMinLabel.text
+//            destViewController?.timeSecLabel.text = timeSecLabel.text
+//            destViewController?.timeMilLabel.text = timeMilLabel.text
             
             destViewController?.cSocket = cSocket
         }
@@ -253,35 +240,16 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         print("all good")
         print(CheckPointSerial)
         
-//        if checkPoints["a"]! == CheckPoindSerial {
-//            print("Crossed CP1!")
-//        }
-//        
-//        if checkPoints["b"]! == CheckPoindSerial {
-//            print("Crossed CP2!")
-//        }
+        for (key, serial) in checkPoints {
+            if serial == CheckPointSerial {
+                currentCheckPoint = key
+            }
+        }
         
-        CP.checkCross(pointSerial: CheckPointSerial, endGame: endGame)
-        CPsCrossed.text = String(trackArray.count - CP.track.queueList.count)
-        //NextCP.text = CP.track.peek()
-        
+        //CPsCrossed.text = String(trackArray.count - CP.track.queueList.count)
         sock.readData(withTimeout: -1, tag: 0)
     }
     
-    func UpdateTimer() {
-        if counter[2] == 100 {
-            counter[1]=counter[1]+1
-            counter[2] = 0
-        }else if counter[1] == 60 {
-            counter[0]=counter[0]+1
-            counter[1] = 0
-        }else {
-            counter[2]=counter[2]+1
-        }
-        timeMilLabel.text = String(format: "%02d", counter[2])
-        timeSecLabel.text = String(format: "%02d", counter[1])
-        timeMinLabel.text = String(format: "%02d", counter[0])
-    }
     
     func endGame() -> Int {
         self.performSegue(withIdentifier: "toFinalVC", sender: nil)
