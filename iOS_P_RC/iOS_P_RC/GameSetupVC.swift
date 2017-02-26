@@ -46,32 +46,34 @@ class Watch {
     var timer: Timer = Timer()
     var countTime = [0,0,0]
     var count = 0
-    var setTime = 0
-    var typeIsTimer = false
+    var timerTimeCount = 0
+    var watchTypeTimer = false
     var min: UILabel!
     var sec: UILabel!
     var mil: UILabel!
     
-    init(min: UILabel, sec: UILabel, mil: UILabel) {
+    init(min: UILabel, sec: UILabel, mil: UILabel, timerTimeCount: Int?) {
         self.min = min
         self.sec = sec
         self.mil = mil
+        if let timerTimeCount = timerTimeCount {
+            self.timerTimeCount = timerTimeCount
+            self.watchTypeTimer = true
+        }
     }
     
     
-    func startWatch(currentVC: UIViewController, watchTypeTimer: Bool) {
+    func startWatch(currentVC: UIViewController) {
         self.countTime = [0,0,0]
-        self.typeIsTimer = watchTypeTimer
-        print("ffrwbegbtbbdtbbhbfdgh")
         self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.UpdateWatch), userInfo: nil, repeats: true)
     }
     
     @objc func UpdateWatch() {
         var finalCount = 0
         
-        if typeIsTimer {
-            self.setTime -= count
-            finalCount = setTime
+        if self.watchTypeTimer {
+            self.timerTimeCount -= 1
+            finalCount = timerTimeCount
         } else {
             finalCount = count
         }
@@ -90,34 +92,43 @@ class Watch {
 
 protocol Game {
     var gameName: String { get }
-    func checkCross(checkPointLabel: String, endGame: () -> Int)
+    func checkCross(currentCheckPoint: String, CPointsCrossedLabel: UILabel, endGameVControllerIdentifier: String)
     
 }
 
 class TimeTrialGame : Game{
     internal var gameName: String = "Time Trial"
     var trackQueue = Queue<String>()
+    var CPointsCrossed = 0
+    var currentVC = UIViewController()
     
-    internal func checkCross(checkPointLabel: String, endGame: () -> Int) {
-        if checkPointLabel == self.trackQueue.peek() {
+    internal func checkCross(currentCheckPoint: String, CPointsCrossedLabel: UILabel, endGameVControllerIdentifier: String) {
+        if currentCheckPoint == self.trackQueue.peek() {
             print(self.trackQueue.dequeue())
+            self.CPointsCrossed += 1
+            CPointsCrossedLabel.text = String(self.CPointsCrossed)
         }
         if self.trackQueue.queueList == []{
-            self.endGamef(endGame: endGame)
+            self.endGame(endGameVControllerIdentifier: endGameVControllerIdentifier)
         }
     }
     
-    func start(currentVC: UIViewController, min: UILabel, sec: UILabel, mil: UILabel) {
-        var stopWatch = Watch(min: min, sec: sec, mil: mil)
-        stopWatch.startWatch(currentVC: currentVC, watchTypeTimer: false)
+    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController) {
+        self.currentVC = currentVC
+        totalCPointLabel.text = String(self.trackQueue.queueList.count)
+    }
+    
+    func start(min: UILabel, sec: UILabel, mil: UILabel) {
+        let stopWatch = Watch(min: min, sec: sec, mil: mil, timerTimeCount: nil)
+        stopWatch.startWatch(currentVC: self.currentVC)
         
     }
     
-    func endGamef(endGame: () -> Int) -> [Int] {
+    func endGame(endGameVControllerIdentifier: String) {
         //get return time
-        print(endGame)
         
-        return [1]
+        self.currentVC.performSegue(withIdentifier: endGameVControllerIdentifier, sender: nil)
+        
     }
 
 }

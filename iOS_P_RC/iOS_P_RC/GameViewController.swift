@@ -12,7 +12,7 @@ import CocoaAsyncSocket
 
 class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
-    let addr = "192.168.0.9"
+    let addr = "192.168.0.1"
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
     
@@ -133,7 +133,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         
         if driveButtonPressed == true {
             if gameStarted == false {
-                timeTrail.start(currentVC: self, min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
+                
+                timeTrail.start(min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
                 gameStarted = true
             }
             usleep(useconds_t(0.0001))
@@ -176,11 +177,11 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-// declare here and change trackArray
-        //NoOfCPoints.text = String(trackArray.count)
+    
+        timeTrail.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self)
+
         driveButton.isHidden = true
         
-//        CP.setTrack(trackArray: trackArray, CPDict: checkPoints)
 // so check which game was selected and ...
         
         //Gyro config
@@ -194,18 +195,12 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         //
         //Video config
         let vidURL = "http://\(addr):8080"
-        
         videoView.allowsInlineMediaPlayback = true
         videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" scrolling=\"no\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
         
     }
     
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if cancelGame {
@@ -215,10 +210,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             destViewController?.cSocketDeclared = true
         } else {
             let destViewController = segue.destination as? FinalScreenVC
-            
-//            destViewController?.timeMinLabel.text = timeMinLabel.text
-//            destViewController?.timeSecLabel.text = timeSecLabel.text
-//            destViewController?.timeMilLabel.text = timeMilLabel.text
             
             destViewController?.cSocket = cSocket
         }
@@ -240,16 +231,10 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             }
         }
         
-        //CPsCrossed.text = String(trackArray.count - CP.track.queueList.count)
+        timeTrail.checkCross(currentCheckPoint: currentCheckPoint, CPointsCrossedLabel: CPsCrossed, endGameVControllerIdentifier: "toFinalVC")
         sock.readData(withTimeout: -1, tag: 0)
     }
     
-    
-    func endGame() -> Int {
-        self.performSegue(withIdentifier: "toFinalVC", sender: nil)
-        
-        return 1
-    }
     
     
 }
