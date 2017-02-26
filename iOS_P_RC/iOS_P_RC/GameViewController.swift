@@ -31,11 +31,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     var currentCheckPoint: String = ""
     var checkPoints: [String: [UInt8]] = ["A": [151, 23, 174, 33, 15], "B": [35, 85, 138, 217, 37]]
     
-    var trackArray = [String]()
-    //var CP = CheckPoint()
-    
-    var timeTrail: TimeTrialGame!
-    
     var cancelGame = false
     
     var gameStarted = false
@@ -66,6 +61,9 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     @IBOutlet weak var timeMinLabel: UILabel!
     @IBOutlet weak var timeSecLabel: UILabel!
     @IBOutlet weak var timeMilLabel: UILabel!
+    
+    
+    var timeTrail: TimeTrialGame!
 
 
     var counter = [0, 0, 0]
@@ -133,8 +131,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         
         if driveButtonPressed == true {
             if gameStarted == false {
-                
-                timeTrail.start(min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
+                timeTrail.start()
                 gameStarted = true
             }
             usleep(useconds_t(0.0001))
@@ -178,7 +175,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        timeTrail.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self)
+        timeTrail.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
 
         driveButton.isHidden = true
         
@@ -231,7 +228,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             }
         }
         
-        timeTrail.checkCross(currentCheckPoint: currentCheckPoint, CPointsCrossedLabel: CPsCrossed, endGameVControllerIdentifier: "toFinalVC")
+        timeTrail.checkCross(currentCheckPoint: currentCheckPoint)
         sock.readData(withTimeout: -1, tag: 0)
     }
     

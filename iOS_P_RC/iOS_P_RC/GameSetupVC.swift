@@ -76,8 +76,8 @@ class Watch {
             finalCount = timerTimeCount
         } else {
             finalCount = count
+            self.count += 1
         }
-        self.count += 1
         
         self.countTime[2] = finalCount % 100
         self.countTime[1] = finalCount/100
@@ -92,7 +92,7 @@ class Watch {
 
 protocol Game {
     var gameName: String { get }
-    func checkCross(currentCheckPoint: String, CPointsCrossedLabel: UILabel, endGameVControllerIdentifier: String)
+    func checkCross(currentCheckPoint: String)
     
 }
 
@@ -101,8 +101,14 @@ class TimeTrialGame : Game{
     var trackQueue = Queue<String>()
     var CPointsCrossed = 0
     var currentVC = UIViewController()
+    var CPointsCrossedLabel:UILabel!
+    var min: UILabel!
+    var sec: UILabel!
+    var mil: UILabel!
+    var endGameVControllerIdentifier = ""
     
-    internal func checkCross(currentCheckPoint: String, CPointsCrossedLabel: UILabel, endGameVControllerIdentifier: String) {
+    
+    internal func checkCross(currentCheckPoint: String) {
         if currentCheckPoint == self.trackQueue.peek() {
             print(self.trackQueue.dequeue())
             self.CPointsCrossed += 1
@@ -113,13 +119,19 @@ class TimeTrialGame : Game{
         }
     }
     
-    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController) {
+    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
         self.currentVC = currentVC
+        self.CPointsCrossedLabel = CPointsCrossedLabel
+        self.endGameVControllerIdentifier = endGameVControllerIdentifier
+        self.min = min
+        self.sec = sec
+        self.mil = mil
+        self.CPointsCrossedLabel.isHidden = false
         totalCPointLabel.text = String(self.trackQueue.queueList.count)
     }
     
-    func start(min: UILabel, sec: UILabel, mil: UILabel) {
-        let stopWatch = Watch(min: min, sec: sec, mil: mil, timerTimeCount: nil)
+    func start() {
+        let stopWatch = Watch(min: self.min, sec: self.sec, mil: self.mil, timerTimeCount: nil)
         stopWatch.startWatch(currentVC: self.currentVC)
         
     }
@@ -133,6 +145,11 @@ class TimeTrialGame : Game{
 
 }
 
+
+class AnyRouteGame: TimeTrialGame {
+    
+    
+}
 
 
 
@@ -149,7 +166,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     var timeTrial = TimeTrialGame()
     
-    var games = ["Time Trial", "Game 2", "Game 3", "Game 4"]
+    var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
     var stepperVal = 0.0
     var selectedCP = "A"
     var cancel = false
