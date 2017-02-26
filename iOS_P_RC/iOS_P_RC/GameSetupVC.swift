@@ -52,9 +52,17 @@ class Watch {
     var sec: UILabel!
     var mil: UILabel!
     
+    init(min: UILabel, sec: UILabel, mil: UILabel) {
+        self.min = min
+        self.sec = sec
+        self.mil = mil
+    }
+    
+    
     func startWatch(currentVC: UIViewController, watchTypeTimer: Bool) {
         self.countTime = [0,0,0]
         self.typeIsTimer = watchTypeTimer
+        print("ffrwbegbtbbdtbbhbfdgh")
         self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.UpdateWatch), userInfo: nil, repeats: true)
     }
     
@@ -99,8 +107,8 @@ class TimeTrialGame : Game{
         }
     }
     
-    func start(currentVC: UIViewController) {
-        var stopWatch: Watch!
+    func start(currentVC: UIViewController, min: UILabel, sec: UILabel, mil: UILabel) {
+        var stopWatch = Watch(min: min, sec: sec, mil: mil)
         stopWatch.startWatch(currentVC: currentVC, watchTypeTimer: false)
         
     }
@@ -128,7 +136,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     var cSocket:GCDAsyncSocket!
     
-    var timeTrial: TimeTrialGame!
+    var timeTrial = TimeTrialGame()
     
     var games = ["Time Trial", "Game 2", "Game 3", "Game 4"]
     var stepperVal = 0.0
@@ -163,13 +171,12 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         cancel = true
     }
     @IBAction func createButton(_ sender: Any) {
-//        switch titleName.text! {
-//        case games[0]:
-//            print("a")
-//            timeTrial.trackQueue = track
-//        default:
-//            print("not set")
-//        }
+        switch titleName.text! {
+        case games[0]:
+            timeTrial.trackQueue = track
+        default:
+            print("not set")
+        }
     }
     
     

@@ -133,13 +133,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         
         if driveButtonPressed == true {
             if gameStarted == false {
-                
-                
-                
-                timeTrail.start(currentVC: self)
-                
-                
-                
+                timeTrail.start(currentVC: self, min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
                 gameStarted = true
             }
             usleep(useconds_t(0.0001))
