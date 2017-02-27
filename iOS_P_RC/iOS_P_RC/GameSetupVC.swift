@@ -88,12 +88,19 @@ class Watch {
         self.min.text = String(format: "%02d", countTime[0])
     }
     
+    func endWatch() -> [Int] {
+        self.timer.invalidate()
+        return self.countTime
+        
+    }
+    
 }
 
 protocol Game {
     var gameName: String { get }
+    func start()
     func checkCross(currentCheckPoint: String)
-    
+    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel)
 }
 
 class TimeTrialGame : Game{
@@ -106,18 +113,9 @@ class TimeTrialGame : Game{
     var sec: UILabel!
     var mil: UILabel!
     var endGameVControllerIdentifier = ""
+    var finalTime = [0,0,0]
+    var stopWatch: Watch!
     
-    
-    internal func checkCross(currentCheckPoint: String) {
-        if currentCheckPoint == self.trackQueue.peek() {
-            print(self.trackQueue.dequeue())
-            self.CPointsCrossed += 1
-            CPointsCrossedLabel.text = String(self.CPointsCrossed)
-        }
-        if self.trackQueue.queueList == []{
-            self.endGame(endGameVControllerIdentifier: endGameVControllerIdentifier)
-        }
-    }
     
     func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
         self.currentVC = currentVC
@@ -131,14 +129,24 @@ class TimeTrialGame : Game{
     }
     
     func start() {
-        let stopWatch = Watch(min: self.min, sec: self.sec, mil: self.mil, timerTimeCount: nil)
+        self.stopWatch = Watch(min: self.min, sec: self.sec, mil: self.mil, timerTimeCount: nil)
         stopWatch.startWatch(currentVC: self.currentVC)
         
     }
     
+    internal func checkCross(currentCheckPoint: String) {
+        if currentCheckPoint == self.trackQueue.peek() {
+            print(self.trackQueue.dequeue())
+            self.CPointsCrossed += 1
+            CPointsCrossedLabel.text = String(self.CPointsCrossed)
+        }
+        if self.trackQueue.queueList == []{
+            self.endGame(endGameVControllerIdentifier: endGameVControllerIdentifier)
+        }
+    }
+    
     func endGame(endGameVControllerIdentifier: String) {
-        //get return time
-        
+        self.finalTime = self.stopWatch.endWatch()
         self.currentVC.performSegue(withIdentifier: endGameVControllerIdentifier, sender: nil)
         
     }
@@ -157,7 +165,7 @@ class AnyRouteGame: TimeTrialGame {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////  ViewController Class  /////////////////////////////////////////////////////////////
+///////////////////////////////////////////  ViewController Class  /////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, GCDAsyncSocketDelegate {
@@ -165,6 +173,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var cSocket:GCDAsyncSocket!
     
     var timeTrial = TimeTrialGame()
+    
     
     var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
     var stepperVal = 0.0
@@ -184,13 +193,17 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
-            track.enqueue(item: selectedCP)
+            if track.queueList.last != selectedCP {
+                track.enqueue(item: selectedCP)
+                self.trackCollection!.reloadData()
+            }
             stepperVal = sender.value
-            self.trackCollection!.reloadData()
-        }else {
+        }else if  track.queueList.count != 0{
             track.queueList.removeLast()
             stepperVal = sender.value
             self.trackCollection!.reloadData()
+        }else{
+            stepperVal = sender.value
         }
     }
     
@@ -225,6 +238,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         hideAllUI()
         
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -236,7 +250,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         } else {
             let destViewController = segue.destination as? GameViewController
         
-            destViewController?.timeTrail = timeTrial
+            //destViewController?.timeTrail = timeTrial
+            destViewController?.tagGame = timeTrial
             destViewController?.cSocket = cSocket
         }
     }
@@ -319,7 +334,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifier, for: indexPath) as UICollectionViewCell
         
         let checkPointLetter = cell.viewWithTag(1) as! UILabel
         checkPointLetter.text = self.track.queueList[indexPath.row]
