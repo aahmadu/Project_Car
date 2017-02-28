@@ -395,6 +395,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let firstTag = self.firstTagLabels.viewWithTag(1) as! UILabel
+        let lastTag = self.lastTagLabels.viewWithTag(1) as! UILabel
         if collectionView == self.anyRouteCollection {
             if self.anyRoute.gameTags.contains(self.checkPoints[indexPath.row]) {
                 if self.anyRoute.gameTags.count == 1 {
@@ -406,9 +408,10 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                             self.anyRoute.gameTags.remove(at: index)
                         }
                     }
-                    let firstTag = self.firstTagLabels.viewWithTag(1) as! UILabel
                     firstTag.text = "-"
-                }else{
+                    lastTag.text = "-"
+                }
+                else if self.checkPoints[indexPath.row] != firstTag.text{
                     let cell = collectionView.cellForItem(at: indexPath)
                     cell?.layer.borderWidth = 1
                     cell?.layer.borderColor = UIColor.gray.cgColor
@@ -417,7 +420,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                             self.anyRoute.gameTags.remove(at: index)
                         }
                     }
-                    let lastTag = self.lastTagLabels.viewWithTag(1) as! UILabel
+                    
                     lastTag.text = self.anyRoute.gameTags.last
                 }
             }else{
@@ -426,14 +429,13 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     cell?.layer.borderWidth = 2
                     cell?.layer.borderColor = UIColor.blue.cgColor
                     self.anyRoute.gameTags.append(self.checkPoints[indexPath.row])
-                    let firstTag = self.firstTagLabels.viewWithTag(1) as! UILabel
+                    
                     firstTag.text = self.checkPoints[indexPath.row]
                 }else{
                     let cell = collectionView.cellForItem(at: indexPath)
                     cell?.layer.borderWidth = 2
                     cell?.layer.borderColor = UIColor.blue.cgColor
                     self.anyRoute.gameTags.append(self.checkPoints[indexPath.row])
-                    let lastTag = self.lastTagLabels.viewWithTag(1) as! UILabel
                     lastTag.text = self.checkPoints[indexPath.row]
                 }
                 
