@@ -202,6 +202,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet weak var stepperOutlet: UIStepper!
     @IBOutlet weak var trackCollection: UICollectionView!
     @IBOutlet weak var anyRouteCollection: UICollectionView!
+    @IBOutlet weak var firstTagLabels: UIView!
+    @IBOutlet weak var lastTagLabels: UIView!
     
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
@@ -250,9 +252,11 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         anyRouteCollection.delegate = self
         anyRouteCollection.dataSource = self
+        //anyRouteCollection.layer.borderWidth = 1
+        //anyRouteCollection.layer.borderColor = UIColor.gray.cgColor
         
         self.view.addSubview(trackCollection)
-        
+        self.view.addSubview(anyRouteCollection)
         
         hideAllUI()
         
@@ -280,6 +284,9 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         CPPicker.isHidden = true
         trackCollection.isHidden = true
         titleName.isHidden = true
+        anyRouteCollection.isHidden = true
+        firstTagLabels.isHidden = true
+        lastTagLabels.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -307,6 +314,9 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             hideAllUI()
             titleName.isHidden = false
             titleName.text = games[indexPath.row]
+            anyRouteCollection.isHidden = false
+            firstTagLabels.isHidden = false
+            lastTagLabels.isHidden = false
             welcomeLabel.isHidden = true
         case 2:
             hideAllUI()
@@ -348,18 +358,87 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.track.queueList.count
+        if collectionView == self.trackCollection {
+            return self.track.queueList.count
+        }else {
+            return checkPoints.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseIdentifier, for: indexPath) as UICollectionViewCell
+        if collectionView == self.trackCollection {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "timeTrialCollectionViewCell", for: indexPath) as UICollectionViewCell
+            
+            let checkPointLetter = cell.viewWithTag(1) as! UILabel
+            checkPointLetter.text = self.track.queueList[indexPath.row]
+            
+            let checkPointNumber = cell.viewWithTag(2) as! UILabel
+            checkPointNumber.text = String(indexPath.row + 1)
+            
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor.gray.cgColor
+            
+            return cell
+        }else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "anyRouteCollectionViewCell", for: indexPath) as UICollectionViewCell
+            
+            let checkPointLetter = cell.viewWithTag(1) as! UILabel
+            checkPointLetter.text = self.checkPoints[indexPath.row]
+            
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor.gray.cgColor
+            
+            
+            return cell
+        }
         
-        let checkPointLetter = cell.viewWithTag(1) as! UILabel
-        checkPointLetter.text = self.track.queueList[indexPath.row]
-        
-        let checkPointNumber = cell.viewWithTag(2) as! UILabel
-        checkPointNumber.text = String(indexPath.row + 1)
-        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == self.anyRouteCollection {
+            if self.anyRoute.gameTags.contains(self.checkPoints[indexPath.row]) {
+                if self.anyRoute.gameTags.count == 1 {
+                    let cell = collectionView.cellForItem(at: indexPath)
+                    cell?.layer.borderWidth = 1
+                    cell?.layer.borderColor = UIColor.gray.cgColor
+                    for (index, tags) in self.anyRoute.gameTags.enumerated() {
+                        if tags == self.checkPoints[indexPath.row] {
+                            self.anyRoute.gameTags.remove(at: index)
+                        }
+                    }
+                    let firstTag = self.firstTagLabels.viewWithTag(1) as! UILabel
+                    firstTag.text = "-"
+                }else{
+                    let cell = collectionView.cellForItem(at: indexPath)
+                    cell?.layer.borderWidth = 1
+                    cell?.layer.borderColor = UIColor.gray.cgColor
+                    for (index, tags) in self.anyRoute.gameTags.enumerated() {
+                        if tags == self.checkPoints[indexPath.row] {
+                            self.anyRoute.gameTags.remove(at: index)
+                        }
+                    }
+                    let lastTag = self.lastTagLabels.viewWithTag(1) as! UILabel
+                    lastTag.text = self.anyRoute.gameTags.last
+                }
+            }else{
+                if self.anyRoute.gameTags.isEmpty {
+                    let cell = collectionView.cellForItem(at: indexPath)
+                    cell?.layer.borderWidth = 2
+                    cell?.layer.borderColor = UIColor.blue.cgColor
+                    self.anyRoute.gameTags.append(self.checkPoints[indexPath.row])
+                    let firstTag = self.firstTagLabels.viewWithTag(1) as! UILabel
+                    firstTag.text = self.checkPoints[indexPath.row]
+                }else{
+                    let cell = collectionView.cellForItem(at: indexPath)
+                    cell?.layer.borderWidth = 2
+                    cell?.layer.borderColor = UIColor.blue.cgColor
+                    self.anyRoute.gameTags.append(self.checkPoints[indexPath.row])
+                    let lastTag = self.lastTagLabels.viewWithTag(1) as! UILabel
+                    lastTag.text = self.checkPoints[indexPath.row]
+                }
+                
+            }
+        }
     }
     
 }
