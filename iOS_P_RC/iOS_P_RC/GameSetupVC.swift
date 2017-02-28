@@ -155,8 +155,18 @@ class TimeTrialGame : Game{
 
 
 class AnyRouteGame: TimeTrialGame {
+    var gameTags = [String]()
     
-    
+    override func checkCross(currentCheckPoint: String) {
+        for (index, tags) in gameTags.enumerated() {
+            if tags == currentCheckPoint {
+                gameTags.remove(at: index)
+            }
+        }
+        if gameTags.isEmpty {
+            self.endGame(endGameVControllerIdentifier: endGameVControllerIdentifier)
+        }
+    }
 }
 
 
@@ -173,6 +183,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var cSocket:GCDAsyncSocket!
     
     var timeTrial = TimeTrialGame()
+    var anyRoute  = AnyRouteGame()
     
     
     var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
@@ -190,6 +201,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet weak var CPPicker: UIPickerView!
     @IBOutlet weak var stepperOutlet: UIStepper!
     @IBOutlet weak var trackCollection: UICollectionView!
+    @IBOutlet weak var anyRouteCollection: UICollectionView!
     
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
@@ -235,6 +247,12 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         trackCollection.delegate = self
         trackCollection.dataSource = self
+        
+        anyRouteCollection.delegate = self
+        anyRouteCollection.dataSource = self
+        
+        self.view.addSubview(trackCollection)
+        
         
         hideAllUI()
         
@@ -345,44 +363,3 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//class CheckPoint {
-//    var track = Queue<String>()
-//    var checkpoints: [String: [UInt8]] = [:]
-//
-//    func setTrack(trackArray: Array<String>, CPDict: Dictionary<String, [UInt8]>) {
-//        checkpoints = CPDict
-//        for point in trackArray {
-//            track.enqueue(item: point)
-//        }
-//    }
-//
-//    func checkCross(checkPointLabel: String, endGame: () -> Int) {
-//        if checkPointLabel == track.peek() {
-//            print(track.dequeue())
-//        }
-//        if track.queueList == []{
-//            endGame()
-//        }
-//
-//    }
-//}
