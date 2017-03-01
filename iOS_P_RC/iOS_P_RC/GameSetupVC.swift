@@ -107,6 +107,7 @@ class TimeTrialGame : Game{
     internal var gameName: String = "Time Trial"
     var trackQueue = Queue<String>()
     var CPointsCrossed = 0
+    var totalCPoints = 0
     var currentVC = UIViewController()
     var CPointsCrossedLabel:UILabel!
     var min: UILabel!
@@ -115,6 +116,10 @@ class TimeTrialGame : Game{
     var endGameVControllerIdentifier = ""
     var finalTime = [0,0,0]
     var stopWatch: Watch!
+    
+    init(name: String) {
+        self.gameName = name
+    }
     
     
     func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
@@ -125,7 +130,7 @@ class TimeTrialGame : Game{
         self.sec = sec
         self.mil = mil
         self.CPointsCrossedLabel.isHidden = false
-        totalCPointLabel.text = String(self.trackQueue.queueList.count)
+        totalCPointLabel.text = String(totalCPoints)
     }
     
     func start() {
@@ -156,14 +161,18 @@ class TimeTrialGame : Game{
 
 class AnyRouteGame: TimeTrialGame {
     var gameTags = [String]()
+    var firstLastTag = ["A", "A"]
     
     override func checkCross(currentCheckPoint: String) {
-        for (index, tags) in gameTags.enumerated() {
-            if tags == currentCheckPoint {
-                gameTags.remove(at: index)
+        if firstLastTag[0] == currentCheckPoint || gameTags.contains(firstLastTag[0]) == false {
+            for (index, tags) in gameTags.enumerated() {
+                if tags == currentCheckPoint {
+                    gameTags.remove(at: index)
+                    self.CPointsCrossed += 1
+                }
             }
         }
-        if gameTags.isEmpty {
+        else if gameTags.count == 1 && firstLastTag[1] == currentCheckPoint {
             self.endGame(endGameVControllerIdentifier: endGameVControllerIdentifier)
         }
     }
@@ -182,8 +191,10 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     var cSocket:GCDAsyncSocket!
     
-    var timeTrial = TimeTrialGame()
-    var anyRoute  = AnyRouteGame()
+    var tagGame:Game!
+    
+    var timeTrial = TimeTrialGame(name: "Time Trial")
+    var anyRoute  = AnyRouteGame(name: "Any Route")
     
     
     var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
@@ -228,7 +239,23 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     @IBAction func createButton(_ sender: Any) {
         switch titleName.text! {
         case games[0]:
-            timeTrial.trackQueue = track
+            if track.queueList.count > 1 {
+                timeTrial.trackQueue = track
+                timeTrial.totalCPoints = track.queueList.count
+                tagGame = timeTrial
+                self.performSegue(withIdentifier: "createGameSegue", sender: nil)
+            } else{
+                print("not enough")
+            }
+        
+        case games[1]:
+            if anyRoute.gameTags.count > 1 {
+                anyRoute.totalCPoints = anyRoute.gameTags.count
+                tagGame = anyRoute
+                self.performSegue(withIdentifier: "createGameSegue", sender: nil)
+            } else{
+                print("not enough")
+            }
         default:
             print("not set")
         }
@@ -252,8 +279,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         anyRouteCollection.delegate = self
         anyRouteCollection.dataSource = self
-        //anyRouteCollection.layer.borderWidth = 1
-        //anyRouteCollection.layer.borderColor = UIColor.gray.cgColor
+        
         
         self.view.addSubview(trackCollection)
         self.view.addSubview(anyRouteCollection)
@@ -273,7 +299,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             let destViewController = segue.destination as? GameViewController
         
             //destViewController?.timeTrail = timeTrial
-            destViewController?.tagGame = timeTrial
+            destViewController?.tagGame = tagGame
             destViewController?.cSocket = cSocket
         }
     }
@@ -441,6 +467,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
                 
             }
         }
+        anyRoute.firstLastTag[0] = firstTag.text!
+        anyRoute.firstLastTag[1] = lastTag.text!
     }
     
 }

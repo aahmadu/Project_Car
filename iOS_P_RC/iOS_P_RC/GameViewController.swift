@@ -35,6 +35,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     var gameStarted = false
     
+    var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
+    
     @IBOutlet weak var throttleShift: UIImageView!
     @IBOutlet weak var throttleSlider: UIImageView!
     @IBOutlet weak var driveButton: UIButton!
@@ -61,6 +63,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     @IBOutlet weak var timeMinLabel: UILabel!
     @IBOutlet weak var timeSecLabel: UILabel!
     @IBOutlet weak var timeMilLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var startEndLabels: UIView!
     
     var tagGame: Game!
 
@@ -178,7 +182,22 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
 
         driveButton.isHidden = true
         
-// so check which game was selected and ...
+        titleLabel.text = tagGame.gameName
+        
+        switch tagGame.gameName {
+        case games[0]:
+            startEndLabels.isHidden = true
+        case games[1]:
+            var anyRoute = AnyRouteGame(name: "Any Route")
+            anyRoute = tagGame as! AnyRouteGame
+            let startTag = self.startEndLabels.viewWithTag(1) as! UILabel
+            let endTag = self.startEndLabels.viewWithTag(2) as! UILabel
+            startTag.text = anyRoute.firstLastTag[0]
+            endTag.text = anyRoute.firstLastTag[1]
+            startEndLabels.backgroundColor = UIColor.clear
+        default:
+            print("error")
+        }
         
         //Gyro config
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (deviceMotion: CMDeviceMotion?, NSError) -> Void in
@@ -188,7 +207,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             }
             
         })
-        //
         //Video config
         let vidURL = "http://\(addr):8080"
         videoView.allowsInlineMediaPlayback = true
