@@ -13,7 +13,7 @@ import CocoaAsyncSocket
 
 class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
-    let addr = "192.168.0.7"
+    let addr = "192.168.0.1"
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
     var cSocketDeclared = false
@@ -67,34 +67,11 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     
     @IBAction func connectButton(_ sender: Any) {
-        let alertController = UIAlertController(title: "Connect to Car", message: "enter addr", preferredStyle: UIAlertControllerStyle.alert)
-        
-        let connectAction = UIAlertAction(title: "Connect", style: .default) { [weak alertController] _ in
-            if let alertController = alertController {
-                let addrTextField = alertController.textFields![0] as UITextField
-
-                self.cSocketDeclared = true
-                if self.connectToCar(addr: addrTextField.text!) {
-                    self.connectionStatusLabel.text = "Connected"
-                    self.connectionStatusImage.image = #imageLiteral(resourceName: "green")
-                }
-            }
+        self.cSocketDeclared = true
+        if self.connectToCar(addr: addr) {
+            self.connectionStatusLabel.text = "Connected"
+            self.connectionStatusImage.image = #imageLiteral(resourceName: "green")
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
-        
-        alertController.addTextField { textField in
-            textField.text = self.addr
-            
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main) { notification in
-                connectAction.isEnabled = textField.text != ""
-            }
-        }
-        
-        alertController.addAction(connectAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion: nil)
     }
     
     func connectToCar(addr: String) -> Bool {
@@ -135,6 +112,17 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {
+        print("Connected to \(addr) on port \(port).")
+        cSocket!.readData(withTimeout: -1, tag: 0)
+    }
+    
+    func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
+        print("working")
+        sock.readData(withTimeout: -1, tag: 0)
     }
     
     

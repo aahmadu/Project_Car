@@ -177,6 +177,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        cSocket.delegate = self
     
         tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
 
@@ -209,8 +211,10 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         })
         //Video config
         let vidURL = "http://\(addr):8080"
+        videoView.scrollView.isScrollEnabled = false
         videoView.allowsInlineMediaPlayback = true
-        videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" scrolling=\"no\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
+        videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
+        
         
     }
     

@@ -16,10 +16,6 @@ class FinalScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     var cSocket:GCDAsyncSocket!
     
-    @IBOutlet weak var timeMinLabel: UILabel!
-    @IBOutlet weak var timeSecLabel: UILabel!
-    @IBOutlet weak var timeMilLabel: UILabel!
-    
     var Min = ""
     var Sec = ""
     var Msec = ""
@@ -30,10 +26,6 @@ class FinalScreenVC: UIViewController, GCDAsyncSocketDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        timeMinLabel.text = Min
-        timeSecLabel.text = Sec
-        timeMilLabel.text = Msec
-        // Do any additional setup after loading the view, typically from a nib.
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: URL.init(string: Bundle.main.path(forResource: "SuperMario", ofType: "mp3")!)!)
             audioPlayer.prepareToPlay()

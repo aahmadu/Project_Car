@@ -41,6 +41,7 @@ class Queue<QueueType> {
     }
 }
 
+
 class Watch {
     
     var timer: Timer = Timer()
@@ -122,7 +123,7 @@ class TimeTrialGame : Game{
     }
     
     
-    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
+    internal func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
         self.currentVC = currentVC
         self.CPointsCrossedLabel = CPointsCrossedLabel
         self.endGameVControllerIdentifier = endGameVControllerIdentifier
@@ -178,6 +179,27 @@ class AnyRouteGame: TimeTrialGame {
     }
 }
 
+class LapCountGame: Game {
+    internal var gameName: String = "Lap Count"
+    
+    init(name: String) {
+        self.gameName = name
+    }
+
+    internal func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
+        print("")
+    }
+    
+    internal func start() {
+        print("")
+    }
+    
+    internal func checkCross(currentCheckPoint: String) {
+        print("")
+    }
+    
+}
+
 
 
 
@@ -197,14 +219,20 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var anyRoute  = AnyRouteGame(name: "Any Route")
     
     
-    var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
+    var games = ["Time Trial", "Any Route", "Lap Count", "Game 4"]
     var stepperVal = 0.0
     var selectedCP = "A"
     var cancel = false
     var checkPoints: [String] = ["A","B"]
     let cellReuseIdentifier = "cell"
     
+    let minutes = Array(0...60)
+    let seconds = Array(0...59)
+    var pickerTime = [0,0]
+    
     var track = Queue<String>()
+    
+    var tpick: UIPickerView!
 
     @IBOutlet weak var titleName: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
@@ -215,6 +243,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet weak var anyRouteCollection: UICollectionView!
     @IBOutlet weak var firstTagLabels: UIView!
     @IBOutlet weak var lastTagLabels: UIView!
+    @IBOutlet weak var lapCountView: UIView!
+    @IBOutlet weak var timePicker: UIPickerView!
     
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
@@ -265,12 +295,19 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tpick = self.lapCountView.viewWithTag(1) as! UIPickerView
+        
         self.gameSelectTable.backgroundColor = UIColor.lightGray
         self.gameSelectTable.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         gameSelectTable.delegate = self
         gameSelectTable.dataSource = self
         
         self.CPPicker.backgroundColor = UIColor.clear
+        self.timePicker.backgroundColor = UIColor.clear
+        
+        timePicker.delegate = self
+        timePicker.dataSource = self
+        
         CPPicker.delegate = self
         CPPicker.dataSource = self
         
@@ -283,6 +320,9 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         self.view.addSubview(trackCollection)
         self.view.addSubview(anyRouteCollection)
+        
+        self.view.addSubview(CPPicker)
+        self.view.addSubview(timePicker)
         
         hideAllUI()
         
@@ -313,6 +353,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         anyRouteCollection.isHidden = true
         firstTagLabels.isHidden = true
         lastTagLabels.isHidden = true
+        lapCountView.isHidden = true
+        timePicker.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -349,6 +391,7 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             titleName.isHidden = false
             titleName.text = games[indexPath.row]
             welcomeLabel.isHidden = true
+            lapCountView.isHidden = false
         case 3:
             hideAllUI()
             titleName.isHidden = false
@@ -363,19 +406,55 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return checkPoints[row]
+        if pickerView == self.CPPicker {
+            return checkPoints[row]
+        }else {
+            if component == 0 {
+                return String(minutes[row])
+            } else {
+                
+                return String(seconds[row])
+            }
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return checkPoints.count
+        if pickerView == self.CPPicker {
+            return checkPoints.count
+        }else {
+            //var row = pickerView.selectedRow(inComponent: 0)
+            
+            if component == 0 {
+                return minutes.count
+            }
+                
+            else {
+                return seconds.count
+            }
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        if pickerView == self.CPPicker {
+            return 1
+        }else {
+            return 2
+        }
     }
     
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCP = checkPoints[row]
+        if pickerView == self.CPPicker {
+            selectedCP = checkPoints[row]
+        }else {
+            if component == 0 {
+                pickerTime[0] = row
+            }
+                
+            else {
+                pickerTime[1] = row
+            }
+        }
     }
     
     
