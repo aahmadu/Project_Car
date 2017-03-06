@@ -49,18 +49,21 @@ class Watch {
     var count = 0
     var timerTimeCount = 0
     var watchTypeTimer = false
-    var min: UILabel!
-    var sec: UILabel!
-    var mil: UILabel!
+    var timeLabel: UILabel!
+    var currentVC: UIViewController!
+    var endGameVControllerIdentifier: String!
     
-    init(min: UILabel, sec: UILabel, mil: UILabel, timerTimeCount: Int?) {
-        self.min = min
-        self.sec = sec
-        self.mil = mil
-        if let timerTimeCount = timerTimeCount {
-            self.timerTimeCount = timerTimeCount
-            self.watchTypeTimer = true
-        }
+    init(timeLabel: UILabel) {
+        self.timeLabel = timeLabel
+    }
+    
+    init(timeLabel: UILabel, timerTimeCount: Int, currentVC: UIViewController, endGameVControllerIdentifier: String) {
+        self.timeLabel = timeLabel
+        self.timerTimeCount = timerTimeCount
+        self.watchTypeTimer = true
+        self.currentVC = currentVC
+        self.endGameVControllerIdentifier = endGameVControllerIdentifier
+        
     }
     
     
@@ -74,6 +77,10 @@ class Watch {
         
         if self.watchTypeTimer {
             self.timerTimeCount -= 1
+            if timerTimeCount == 0 {
+                self.timer.invalidate()
+                self.currentVC.performSegue(withIdentifier: self.endGameVControllerIdentifier, sender: nil)
+            }
             finalCount = timerTimeCount
         } else {
             finalCount = count
@@ -81,12 +88,11 @@ class Watch {
         }
         
         self.countTime[2] = finalCount % 100
-        self.countTime[1] = finalCount/100
+        self.countTime[1] = (finalCount/100)%60
         self.countTime[0] = finalCount/6000
         
-        self.mil.text = String(format: "%02d", countTime[2])
-        self.sec.text = String(format: "%02d", countTime[1])
-        self.min.text = String(format: "%02d", countTime[0])
+        self.timeLabel.text = String(format: "%02d:%02d.%02d", countTime[0], countTime[1], countTime[2])
+        
     }
     
     func endWatch() -> [Int] {
@@ -101,7 +107,7 @@ protocol Game {
     var gameName: String { get }
     func start()
     func checkCross(currentCheckPoint: String)
-    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel)
+    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?)
 }
 
 class TimeTrialGame : Game{
@@ -111,9 +117,7 @@ class TimeTrialGame : Game{
     var totalCPoints = 0
     var currentVC = UIViewController()
     var CPointsCrossedLabel:UILabel!
-    var min: UILabel!
-    var sec: UILabel!
-    var mil: UILabel!
+    var timeLabel: UILabel!
     var endGameVControllerIdentifier = ""
     var finalTime = [0,0,0]
     var stopWatch: Watch!
@@ -123,19 +127,18 @@ class TimeTrialGame : Game{
     }
     
     
-    internal func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
+    internal func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?) {
         self.currentVC = currentVC
         self.CPointsCrossedLabel = CPointsCrossedLabel
         self.endGameVControllerIdentifier = endGameVControllerIdentifier
-        self.min = min
-        self.sec = sec
-        self.mil = mil
+        self.timeLabel = timeLabel
         self.CPointsCrossedLabel.isHidden = false
+        self.totalCPoints = trackQueue.queueList.count
         totalCPointLabel.text = String(totalCPoints)
     }
     
     func start() {
-        self.stopWatch = Watch(min: self.min, sec: self.sec, mil: self.mil, timerTimeCount: nil)
+        self.stopWatch = Watch(timeLabel: self.timeLabel)
         stopWatch.startWatch(currentVC: self.currentVC)
         
     }
@@ -179,25 +182,50 @@ class AnyRouteGame: TimeTrialGame {
     }
 }
 
-class LapCountGame: Game {
-    internal var gameName: String = "Lap Count"
+class LapCountGame: TimeTrialGame {
+    var originalTrackQueue = Queue<String>()
+    var timerTime = [0,0]
+    var timerTimeCount = 0
+    var lapsDone = 0
+    var lapsDoneLabel: UILabel!
     
-    init(name: String) {
-        self.gameName = name
-    }
-
-    internal func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, min: UILabel, sec: UILabel, mil: UILabel) {
-        print("")
+    
+    override func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?) {
+        self.currentVC = currentVC
+        self.CPointsCrossedLabel = CPointsCrossedLabel
+        self.endGameVControllerIdentifier = endGameVControllerIdentifier
+        self.timeLabel = timeLabel
+        self.lapsDoneLabel = lapsDoneLabel
+        self.timeLabel.text = String(format: "%02d:%02d.%02d", timerTime[0], timerTime[1], 0)
+        self.CPointsCrossedLabel.isHidden = false
+        self.timerTimeCount = (6000 * timerTime[0]) + (100 * timerTime[1])
+        self.trackQueue = self.originalTrackQueue
+        self.totalCPoints = trackQueue.queueList.count
+        totalCPointLabel.text = String(totalCPoints)
+        if let lapsDoneLabel = lapsDoneLabel {
+            self.lapsDoneLabel = lapsDoneLabel
+        }
     }
     
-    internal func start() {
-        print("")
+    override func checkCross(currentCheckPoint: String) {
+        if currentCheckPoint == self.trackQueue.peek() {
+            print(self.trackQueue.dequeue())
+            self.CPointsCrossed += 1
+            CPointsCrossedLabel.text = String(self.CPointsCrossed)
+        }
+        if self.trackQueue.queueList == []{
+            self.trackQueue = self.originalTrackQueue
+            self.CPointsCrossedLabel.text = String("0")
+            self.lapsDone += 1
+            self.lapsDoneLabel.text = String(self.lapsDone)
+        }
     }
     
-    internal func checkCross(currentCheckPoint: String) {
-        print("")
+    override func start() {
+        self.stopWatch = Watch(timeLabel: self.timeLabel, timerTimeCount: self.timerTimeCount, currentVC: self.currentVC, endGameVControllerIdentifier: self.endGameVControllerIdentifier)
+        stopWatch.startWatch(currentVC: self.currentVC)
+        
     }
-    
 }
 
 
@@ -217,9 +245,10 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     var timeTrial = TimeTrialGame(name: "Time Trial")
     var anyRoute  = AnyRouteGame(name: "Any Route")
+    var lapCount  = LapCountGame(name: "Lap Count")
     
     
-    var games = ["Time Trial", "Any Route", "Lap Count", "Game 4"]
+    var games = ["Time Trial", "Any Route", "Lap Count"]
     var stepperVal = 0.0
     var selectedCP = "A"
     var cancel = false
@@ -231,8 +260,6 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     var pickerTime = [0,0]
     
     var track = Queue<String>()
-    
-    var tpick: UIPickerView!
 
     @IBOutlet weak var titleName: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
@@ -243,8 +270,9 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet weak var anyRouteCollection: UICollectionView!
     @IBOutlet weak var firstTagLabels: UIView!
     @IBOutlet weak var lastTagLabels: UIView!
-    @IBOutlet weak var lapCountView: UIView!
     @IBOutlet weak var timePicker: UIPickerView!
+    @IBOutlet weak var lapCountLabels: UIView!
+    
     
     @IBAction func stepper(_ sender: UIStepper) {
         if sender.value > stepperVal {
@@ -271,7 +299,6 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         case games[0]:
             if track.queueList.count > 1 {
                 timeTrial.trackQueue = track
-                timeTrial.totalCPoints = track.queueList.count
                 tagGame = timeTrial
                 self.performSegue(withIdentifier: "createGameSegue", sender: nil)
             } else{
@@ -286,6 +313,15 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             } else{
                 print("not enough")
             }
+        case games[2]:
+            if track.queueList.count > 1 && (pickerTime[0]>0 || pickerTime[1]>0){
+                lapCount.originalTrackQueue = track
+                lapCount.timerTime = pickerTime
+                tagGame = lapCount
+                self.performSegue(withIdentifier: "createGameSegue", sender: nil)
+            } else{
+                print("not enough")
+            }
         default:
             print("not set")
         }
@@ -294,8 +330,6 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let tpick = self.lapCountView.viewWithTag(1) as! UIPickerView
         
         self.gameSelectTable.backgroundColor = UIColor.lightGray
         self.gameSelectTable.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
@@ -353,8 +387,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         anyRouteCollection.isHidden = true
         firstTagLabels.isHidden = true
         lastTagLabels.isHidden = true
-        lapCountView.isHidden = true
         timePicker.isHidden = true
+        lapCountLabels.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -377,6 +411,8 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             titleName.text = games[indexPath.row]
             stepperOutlet.isHidden = false
             CPPicker.isHidden = false
+            CPPicker.frame.origin.x = 243
+            CPPicker.frame.origin.y = 139
             trackCollection.isHidden = false
         case 1:
             hideAllUI()
@@ -391,12 +427,15 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             titleName.isHidden = false
             titleName.text = games[indexPath.row]
             welcomeLabel.isHidden = true
-            lapCountView.isHidden = false
-        case 3:
-            hideAllUI()
-            titleName.isHidden = false
-            titleName.text = games[indexPath.row]
-            welcomeLabel.isHidden = true
+            timePicker.isHidden = false
+            lapCountLabels.isHidden = false
+            CPPicker.isHidden = false
+            CPPicker.frame.origin.x = 110
+            CPPicker.frame.origin.y = 0
+            trackCollection.isHidden = false
+            stepperOutlet.isHidden = false
+            stepperOutlet.frame.origin.x = 296
+            stepperOutlet.frame.origin.y = 94
         default:
             print("no index in switch")
         }
@@ -549,5 +588,6 @@ class GameSetupVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         anyRoute.firstLastTag[0] = firstTag.text!
         anyRoute.firstLastTag[1] = lastTag.text!
     }
+    
     
 }

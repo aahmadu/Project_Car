@@ -20,16 +20,24 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     var nextVCisFreeMode = false
     
-    func checkConnection() -> Bool {
+    @discardableResult func checkConnection() -> Bool {
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 27,y: 341), radius: CGFloat(7.5), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePath.cgPath
+        
+        shapeLayer.lineWidth = 3.0
+        
+        view.layer.addSublayer(shapeLayer)
+        
         if cSocketDeclared{
             if cSocket.isConnected {
                 connectionStatusLabel.text = "Connected"
-                connectionStatusImage.image = #imageLiteral(resourceName: "green")
+                shapeLayer.fillColor = UIColor.green.cgColor
             }
             return true
         } else {
             connectionStatusLabel.text = "Not Connected"
-            connectionStatusImage.image = #imageLiteral(resourceName: "red")
+            shapeLayer.fillColor = UIColor.red.cgColor
             
             return false
         }
@@ -44,7 +52,6 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBOutlet weak var connectionStatusImage: UIImageView!
     @IBOutlet weak var connectionStatusLabel: UILabel!
     
     
@@ -69,8 +76,7 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     @IBAction func connectButton(_ sender: Any) {
         self.cSocketDeclared = true
         if self.connectToCar(addr: addr) {
-            self.connectionStatusLabel.text = "Connected"
-            self.connectionStatusImage.image = #imageLiteral(resourceName: "green")
+            checkConnection()
         }
     }
     
@@ -114,16 +120,6 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {
-        print("Connected to \(addr) on port \(port).")
-        cSocket!.readData(withTimeout: -1, tag: 0)
-    }
-    
-    func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-        print("working")
-        sock.readData(withTimeout: -1, tag: 0)
-    }
     
     
 }

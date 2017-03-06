@@ -35,7 +35,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     var gameStarted = false
     
-    var games = ["Time Trial", "Any Route", "Game 3", "Game 4"]
+    var games = ["Time Trial", "Any Route", "Lap Count"]
     
     @IBOutlet weak var throttleShift: UIImageView!
     @IBOutlet weak var throttleSlider: UIImageView!
@@ -60,11 +60,10 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     @IBOutlet weak var NoOfCPoints: UILabel!
     @IBOutlet weak var CPsCrossed: UILabel!
     @IBOutlet weak var NextCP: UILabel!
-    @IBOutlet weak var timeMinLabel: UILabel!
-    @IBOutlet weak var timeSecLabel: UILabel!
-    @IBOutlet weak var timeMilLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var startEndLabels: UIView!
+    @IBOutlet weak var lapCountLabels: UIView!
     
     var tagGame: Game!
 
@@ -179,8 +178,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         super.viewDidLoad()
         
         cSocket.delegate = self
-    
-        tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", min: timeMinLabel, sec: timeSecLabel, mil: timeMilLabel)
 
         driveButton.isHidden = true
         
@@ -189,14 +186,24 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         switch tagGame.gameName {
         case games[0]:
             startEndLabels.isHidden = true
+            lapCountLabels.isHidden = true
+            tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: nil)
         case games[1]:
-            var anyRoute = AnyRouteGame(name: "Any Route")
-            anyRoute = tagGame as! AnyRouteGame
+            startEndLabels.isHidden = false
+            lapCountLabels.isHidden = true
+            tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: nil)
+            let anyRoute = tagGame as! AnyRouteGame
             let startTag = self.startEndLabels.viewWithTag(1) as! UILabel
             let endTag = self.startEndLabels.viewWithTag(2) as! UILabel
             startTag.text = anyRoute.firstLastTag[0]
             endTag.text = anyRoute.firstLastTag[1]
             startEndLabels.backgroundColor = UIColor.clear
+        case games[2]:
+            startEndLabels.isHidden = true
+            lapCountLabels.isHidden = false
+            let lapsDoneLabel = self.lapCountLabels.viewWithTag(1) as! UILabel
+            tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: lapsDoneLabel)
+            lapCountLabels.backgroundColor = UIColor.clear
         default:
             print("error")
         }
@@ -215,7 +222,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         videoView.allowsInlineMediaPlayback = true
         videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)
         
-        
     }
     
     
@@ -228,19 +234,17 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             destViewController?.cSocketDeclared = true
         } else {
             let destViewController = segue.destination as? FinalScreenVC
-            
+            destViewController?.tagGame = tagGame
             destViewController?.cSocket = cSocket
         }
     }
     
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port p: UInt16) {
-        print("Connected to \(addr) on port \(port).")
         cSocket!.readData(withTimeout: -1, tag: 0)
     }
     
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
         let CheckPointSerial = [UInt8](data)
-        print("all good")
         print(CheckPointSerial)
         
         for (key, serial) in checkPoints {

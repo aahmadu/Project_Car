@@ -195,18 +195,7 @@ class FreeModeVC: UIViewController, GCDAsyncSocketDelegate {
     }
     
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-        let CheckPoindSerial = [UInt8](data)
-        print("all good")
-        print(currentCheckPoint)
-        
-        if checkPoints["A"]! == CheckPoindSerial {
-            print("Crossed CP1!")
-        }
-        
-        if checkPoints["B"]! == CheckPoindSerial {
-            print("Crossed CP2!")
-        }
-        
+        print("packets received")
         sock.readData(withTimeout: -1, tag: 0)
     }
     
