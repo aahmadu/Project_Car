@@ -166,7 +166,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches.first != nil) {
-            throttleSlider.center.y = CGFloat(10+(330+10)/2)
+            throttleSlider.frame.origin.y = 157
             driveButtonPressed = false
             mappedRoll=0.0
             mappedPitch=0.0
@@ -181,7 +181,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         
         cSocket.delegate = self
 
-        driveButton.isHidden = true
+        throttleSlider.isHidden = true
+        throttleShift.isHidden = true
         
         if isFreeMode {
             startEndLabels.isHidden = true
