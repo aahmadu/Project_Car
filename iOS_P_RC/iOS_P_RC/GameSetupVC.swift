@@ -107,7 +107,7 @@ protocol Game {
     var gameName: String { get }
     func start()
     func checkCross(currentCheckPoint: String)
-    func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?)
+    func setup(CPProgressLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?)
 }
 
 class TimeTrialGame : Game{
@@ -116,8 +116,8 @@ class TimeTrialGame : Game{
     var CPointsCrossed = 0
     var totalCPoints = 0
     var currentVC = UIViewController()
-    var CPointsCrossedLabel:UILabel!
     var timeLabel: UILabel!
+    var CPProgressLabel: UILabel!
     var endGameVControllerIdentifier = ""
     var finalTime = [0,0,0]
     var stopWatch: Watch!
@@ -127,14 +127,14 @@ class TimeTrialGame : Game{
     }
     
     
-    internal func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?) {
+    internal func setup(CPProgressLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?) {
         self.currentVC = currentVC
-        self.CPointsCrossedLabel = CPointsCrossedLabel
+        self.CPProgressLabel = CPProgressLabel
+        self.CPProgressLabel.isHidden = false
         self.endGameVControllerIdentifier = endGameVControllerIdentifier
         self.timeLabel = timeLabel
-        self.CPointsCrossedLabel.isHidden = false
         self.totalCPoints = trackQueue.queueList.count
-        totalCPointLabel.text = String(totalCPoints)
+        self.CPProgressLabel.text = String(format: "%d/%d", 0, self.totalCPoints)
     }
     
     func start() {
@@ -147,7 +147,7 @@ class TimeTrialGame : Game{
         if currentCheckPoint == self.trackQueue.peek() {
             print(self.trackQueue.dequeue())
             self.CPointsCrossed += 1
-            CPointsCrossedLabel.text = String(self.CPointsCrossed)
+            self.CPProgressLabel.text = String(format: "%d/%d", self.CPointsCrossed, self.totalCPoints)
         }
         if self.trackQueue.queueList == []{
             self.endGame(endGameVControllerIdentifier: endGameVControllerIdentifier)
@@ -190,18 +190,18 @@ class LapCountGame: TimeTrialGame {
     var lapsDoneLabel: UILabel!
     
     
-    override func setup(CPointsCrossedLabel: UILabel, totalCPointLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?) {
+    override func setup(CPProgressLabel: UILabel, currentVC: UIViewController, endGameVControllerIdentifier: String, timeLabel: UILabel, lapsDoneLabel: UILabel?) {
         self.currentVC = currentVC
-        self.CPointsCrossedLabel = CPointsCrossedLabel
+        self.CPProgressLabel = CPProgressLabel
+        self.CPProgressLabel.isHidden = false
         self.endGameVControllerIdentifier = endGameVControllerIdentifier
         self.timeLabel = timeLabel
         self.lapsDoneLabel = lapsDoneLabel
         self.timeLabel.text = String(format: "%02d:%02d.%02d", timerTime[0], timerTime[1], 0)
-        self.CPointsCrossedLabel.isHidden = false
         self.timerTimeCount = (6000 * timerTime[0]) + (100 * timerTime[1])
         self.trackQueue = self.originalTrackQueue
         self.totalCPoints = trackQueue.queueList.count
-        totalCPointLabel.text = String(totalCPoints)
+        self.CPProgressLabel.text = String(format: "%d/%d", 0, self.totalCPoints)
         if let lapsDoneLabel = lapsDoneLabel {
             self.lapsDoneLabel = lapsDoneLabel
         }
@@ -211,11 +211,11 @@ class LapCountGame: TimeTrialGame {
         if currentCheckPoint == self.trackQueue.peek() {
             print(self.trackQueue.dequeue())
             self.CPointsCrossed += 1
-            CPointsCrossedLabel.text = String(self.CPointsCrossed)
+            self.CPProgressLabel.text = String(format: "%d/%d", self.CPointsCrossed, self.totalCPoints)
         }
         if self.trackQueue.queueList == []{
             self.trackQueue = self.originalTrackQueue
-            self.CPointsCrossedLabel.text = String("0")
+            self.CPProgressLabel.text = String(format: "%d/%d", 0, self.totalCPoints)
             self.lapsDone += 1
             self.lapsDoneLabel.text = String(self.lapsDone)
         }

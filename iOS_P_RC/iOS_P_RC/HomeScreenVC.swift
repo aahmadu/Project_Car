@@ -58,7 +58,7 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     @IBAction func freeModeClicked(_ sender: Any) {
         if checkConnection() {
             nextVCisFreeMode = true
-            self.performSegue(withIdentifier: "SegueToFreeMode", sender: nil)
+            self.performSegue(withIdentifier: "SegueToGame", sender: nil)
         } else {
             showNotConnected()
         }
@@ -107,8 +107,9 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if nextVCisFreeMode {
-            let destViewController = segue.destination as? FreeModeVC
+            let destViewController = segue.destination as? GameViewController
             destViewController?.cSocket = cSocket
+            destViewController?.isFreeMode = true
         }else{
             let destViewController = segue.destination as? GameSetupVC
             destViewController?.cSocket = cSocket

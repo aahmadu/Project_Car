@@ -16,6 +16,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     let port:UInt16 = 5050
     var cSocket:GCDAsyncSocket!
     
+    var isFreeMode = false
+    
     var rollCurrMinMax: [Double] = [0.0, 0.0, 0.0]
     var pitchCurrMinMax: [Double] = [0.0, 0.0, 0.0]
     var mappedRoll: Double = 0.0
@@ -57,8 +59,8 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     @IBOutlet var rollLabel: UILabel!
     @IBOutlet var pitchLabel: UILabel!
     
-    @IBOutlet weak var NoOfCPoints: UILabel!
-    @IBOutlet weak var CPsCrossed: UILabel!
+    @IBOutlet weak var NextCPTextLabel: UILabel!
+    @IBOutlet weak var CPProgressLabel: UILabel!
     @IBOutlet weak var NextCP: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -132,7 +134,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         pitchCurrMinMax[0]   = data.attitude.pitch
         
         if driveButtonPressed == true {
-            if gameStarted == false {
+            if !gameStarted && !isFreeMode {
                 tagGame.start()
                 gameStarted = true
             }
@@ -181,31 +183,40 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
 
         driveButton.isHidden = true
         
-        titleLabel.text = tagGame.gameName
-        
-        switch tagGame.gameName {
-        case games[0]:
+        if isFreeMode {
             startEndLabels.isHidden = true
             lapCountLabels.isHidden = true
-            tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: nil)
-        case games[1]:
-            startEndLabels.isHidden = false
-            lapCountLabels.isHidden = true
-            tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: nil)
-            let anyRoute = tagGame as! AnyRouteGame
-            let startTag = self.startEndLabels.viewWithTag(1) as! UILabel
-            let endTag = self.startEndLabels.viewWithTag(2) as! UILabel
-            startTag.text = anyRoute.firstLastTag[0]
-            endTag.text = anyRoute.firstLastTag[1]
-            startEndLabels.backgroundColor = UIColor.clear
-        case games[2]:
-            startEndLabels.isHidden = true
-            lapCountLabels.isHidden = false
-            let lapsDoneLabel = self.lapCountLabels.viewWithTag(1) as! UILabel
-            tagGame.setup(CPointsCrossedLabel: CPsCrossed, totalCPointLabel: NoOfCPoints, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: lapsDoneLabel)
-            lapCountLabels.backgroundColor = UIColor.clear
-        default:
-            print("error")
+            timeLabel.isHidden = true
+            CPProgressLabel.isHidden = true
+            NextCPTextLabel.isHidden = true
+            titleLabel.isHidden = true
+            NextCP.isHidden = true
+        }else{
+            titleLabel.text = tagGame.gameName
+            switch tagGame.gameName {
+            case games[0]:
+                startEndLabels.isHidden = true
+                lapCountLabels.isHidden = true
+                tagGame.setup(CPProgressLabel: CPProgressLabel, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: nil)
+            case games[1]:
+                startEndLabels.isHidden = false
+                lapCountLabels.isHidden = true
+                tagGame.setup(CPProgressLabel: CPProgressLabel, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: nil)
+                let anyRoute = tagGame as! AnyRouteGame
+                let startTag = self.startEndLabels.viewWithTag(1) as! UILabel
+                let endTag = self.startEndLabels.viewWithTag(2) as! UILabel
+                startTag.text = anyRoute.firstLastTag[0]
+                endTag.text = anyRoute.firstLastTag[1]
+                startEndLabels.backgroundColor = UIColor.clear
+            case games[2]:
+                startEndLabels.isHidden = true
+                lapCountLabels.isHidden = false
+                let lapsDoneLabel = self.lapCountLabels.viewWithTag(1) as! UILabel
+                tagGame.setup(CPProgressLabel: CPProgressLabel, currentVC: self, endGameVControllerIdentifier: "toFinalVC", timeLabel: self.timeLabel, lapsDoneLabel: lapsDoneLabel)
+                lapCountLabels.backgroundColor = UIColor.clear
+            default:
+                print("swith error")
+            }
         }
         
         //Gyro config
