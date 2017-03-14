@@ -13,18 +13,19 @@ import CocoaAsyncSocket
 class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     let addr = "192.168.0.1"
-    let port:UInt16 = 5050
+    let VideoPort:UInt16 = 8080
+    
     var cSocket:GCDAsyncSocket!
     
     var isFreeMode = false
     
+    // Gyro data
     var rollCurrMinMax: [Double] = [0.0, 0.0, 0.0]
     var pitchCurrMinMax: [Double] = [0.0, 0.0, 0.0]
     var mappedRoll: Double = 0.0
     var mappedPitch: Double = 0.0
     
     var package: [UInt8] = [0,0,0]
-    var stringData = String()
     
     var motionManager = CMMotionManager()
     
@@ -69,7 +70,6 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
     
     var tagGame: Game!
 
-
     var counter = [0, 0, 0]
     
     
@@ -92,6 +92,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
         
     }
     
+
     @IBAction func AlertAreYouSure(_ sender: Any) {
         let alert = UIAlertController(title: "Alert", message: "Are you sure you want to exit", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -229,7 +230,7 @@ class GameViewController: UIViewController, GCDAsyncSocketDelegate {
             
         })
         //Video config
-        let vidURL = "http://\(addr):8080"
+        let vidURL = "http://\(addr):\(VideoPort)"
         videoView.scrollView.isScrollEnabled = false
         videoView.allowsInlineMediaPlayback = true
         videoView.loadHTMLString("<iframe width=\"320\" height=\"320\" src=\"\(vidURL)?&playsinline=1\" frameborder=\"0\" allowfullscreen></iframe>", baseURL: nil)

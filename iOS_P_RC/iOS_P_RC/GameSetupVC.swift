@@ -9,6 +9,7 @@
 import UIKit
 import CocoaAsyncSocket
 
+// Queue class that can take any type
 class Queue<QueueType> {
     var queueList = [QueueType]()
     
