@@ -13,13 +13,17 @@ import CocoaAsyncSocket
 
 class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
     
-    let addr = "192.168.0.1"
-    let port:UInt16 = 5050
-    var cSocket:GCDAsyncSocket!
+    let addr = "192.168.0.1"    // The address of the raspberry pi on the network
+    let port:UInt16 = 5050  // The port being used for controlling and receiving data from the car
+    
+    var cSocket:GCDAsyncSocket! // socket class
     var cSocketDeclared = false
     
-    var nextVCisFreeMode = false
+    var nextVCisFreeMode = false    // used to detect if player selected free mode or create game
     
+    @IBOutlet weak var connectionStatusLabel: UILabel!
+    // This function checks if the car is connected to the pi and return a bool, it also changes the status at the buttom left
+    // of the page
     @discardableResult func checkConnection() -> Bool {
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: 27,y: 341), radius: CGFloat(7.5), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
@@ -43,6 +47,7 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         }
     }
     
+    // This function brings up a pop up alert to tell the user the car is not connected.
     func showNotConnected() {
         let alertController = UIAlertController(title: "Not Connected", message: "Check connection and try again.", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -52,9 +57,9 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBOutlet weak var connectionStatusLabel: UILabel!
     
     
+
     @IBAction func freeModeClicked(_ sender: Any) {
         if checkConnection() {
             nextVCisFreeMode = true
@@ -80,6 +85,7 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         }
     }
     
+    // this fuction tries to connect to the server socket returns true if succesful.
     func connectToCar(addr: String) -> Bool {
         cSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
         do {
@@ -97,14 +103,12 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        if !checkConnection() {
-            print("connect car")
-        }
+
+        checkConnection()
         
     }
     
+    // Data to be transfferd to next screen. Screen depending on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if nextVCisFreeMode {
             let destViewController = segue.destination as? GameViewController
@@ -120,7 +124,5 @@ class HomeScreenVC: UIViewController, GCDAsyncSocketDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
     
 }

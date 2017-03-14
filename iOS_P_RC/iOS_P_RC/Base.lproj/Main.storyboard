@@ -609,14 +609,6 @@
                                     <action selector="connectButton:" destination="wYH-w5-cjf" eventType="touchUpInside" id="KEX-OL-Wui"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kf7-nF-A2f">
-                                <rect key="frame" x="263" y="307" width="140" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <state key="normal" title="Settings">
-                                    <color key="titleColor" red="0.17202064394950867" green="0.73088032007217407" blue="0.91465920209884644" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OwD-O8-8l9">
                                 <rect key="frame" x="250" y="247" width="167" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -682,6 +674,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wRS-W5-8zs"/>
-        <segue reference="HC9-ZH-RSU"/>
+        <segue reference="Ley-e9-pn6"/>
     </inferredMetricsTieBreakers>
 </document>

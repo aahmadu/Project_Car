@@ -38,6 +38,8 @@ class FinalScreenVC: UIViewController, GCDAsyncSocketDelegate {
         }
         
         gameNameLabel.text = "The \(tagGame.gameName) Game"
+        lapCountLabels.backgroundColor = UIColor.clear
+        timeLabels.backgroundColor = UIColor.clear
         lapCountLabels.isHidden = true
         timeLabels.isHidden = true
         
