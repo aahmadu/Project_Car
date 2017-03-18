@@ -4,4 +4,4 @@ cp /etc/dhcpcd_static.conf /etc/dhcpcd.conf
 
 /usr/sbin/hostapd /etc/hostapd/hostapd.conf &
 
-service isc-dhcp-server restart
+service isc-dhcp-server start

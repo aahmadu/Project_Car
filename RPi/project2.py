@@ -67,6 +67,7 @@ if (os.fork()):
     ESC_Value = int(round(interp(rollPitch[0], [0,255], [120,180])))
     wiringpi.pwmWrite(13, ServoPosition)
     wiringpi.pwmWrite(18, ESC_Value)
+
 else:
   while continue_reading:
     # Scan for cards

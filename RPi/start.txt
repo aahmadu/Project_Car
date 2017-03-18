@@ -1,0 +1,23 @@
++++ readlink -f /home/pi/Project_Car/RPi/RPi_Cam_Web_Interface/start.sh
+++ dirname /home/pi/Project_Car/RPi/RPi_Cam_Web_Interface/start.sh
++ cd /home/pi/Project_Car/RPi/RPi_Cam_Web_Interface
++ source ./config.txt
+++ DEBUG=no
+++ RPICAMDIR=
+++ AUTOSTART=no
+++ security=no
+++ user=
+++ passwd=
+++ WEBPORT=8080
++ fn_stop
++ sudo killall raspimjpeg
++ sudo killall php
++ sudo killall motion
++ sudo mkdir -p /dev/shm/mjpeg
++ sudo chown www-data:www-data /dev/shm/mjpeg
++ sudo chmod 777 /dev/shm/mjpeg
++ sleep 1
++ sudo su -c 'raspimjpeg > /dev/null &' www-data
++ '[' -e /etc/debian_version ']'
++ sleep 1
++ sudo su -c 'php /var/www//schedule.php > /dev/null &' www-data

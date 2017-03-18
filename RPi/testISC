@@ -1,7 +1,4 @@
 #!/bin/bash
-
-#sudo /home/pi/Project_Car/RPi/RPi_Cam_Web_Interface/start.sh
-
 service=isc-dhcp-server
 
 if (( $(ps -ef | grep -v grep | grep $service | wc -l) > 0 ))
@@ -10,5 +7,3 @@ echo "$service is running!!!"
 else
 /etc/init.d/$service start
 fi
-
-sudo python /home/pi/Project_Car/RPi/project2.py
